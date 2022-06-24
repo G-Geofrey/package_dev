@@ -8,8 +8,12 @@ def say_hello(name):
 ```
 ## save the file in a source directory named  "src" directory
 ```
-src
-├──  package_file_name.py
+
+working_dir
+│
+└─── src
+     │
+     └─── package_file_name.py
  
 ```
 ## create git ignore file and save it in the same directory that has "src" directory
@@ -18,13 +22,36 @@ src
 	- type python and create
 	- copy file and paste in git ignore file
 
+```
+
+working_dir
+│
+└─── .gitignore
+ 
+```
+
 ## create LICENSE.txt file
 	https://choosealicense.com
+```
+
+working_dir
+│
+└─── LICENSE.txt
+ 
+```
+
 
 ## write a README.md
 	- title of project
 	- short description
 	- how to install
+```
+
+working_dir
+│
+└─── README.md
+ 
+```
 
 ## create setup.py file and save it in the same directory that has the source directory
 ```python
@@ -45,6 +72,13 @@ se
     # directory in which code file is stored
     package_dir={'':'src'}
     )
+```
+```
+
+working_dir
+│
+└─── setup.py 
+ 
 ```
 
 ## add README.md to `setup.py` file
