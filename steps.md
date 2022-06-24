@@ -123,7 +123,6 @@ setup(
 		 'numpy>=1.20.3',
 		 'matplotlib>=3.4.3',
 		 'seaborn>=0.11.2',
-		 'logging>=0.5.1.2',
 		 'statsmodels>=0.12.2'
 	]
 
