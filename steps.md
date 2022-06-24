@@ -1,23 +1,25 @@
 
-1. write python script with package code e.g package_name.py
+# Developing pyhton package
 
-2. save the file in a source directory named  "src" directory
+## write python script with package code e.g package_name.py
 
-3. create git ignore file and save it in the same directory that has "src" directory
+## save the file in a source directory named  "src" directory
+
+## create git ignore file and save it in the same directory that has "src" directory
 	- create git ignore file
 	- open gitignore.io in the browser
 	- type python and create
 	- copy file and paste in git ignore file
 
-4. create LICENSE.txt file
+## create LICENSE.txt file
 	https://choosealicense.com
 
-5. write a README.md
+## write a README.md
 	- title of project
 	- short description
 	- how to install
 
-6. create setup.py file and save it in the same directory that has the source directory
+## create setup.py file and save it in the same directory that has the source directory
 ```python
 
 from setuptools import setup
@@ -38,7 +40,7 @@ se
     )
 ```
 
-7. add README.md to `setup.py` file
+## add README.md to `setup.py` file
 ```python
 
 from setuptools import setup
@@ -60,7 +62,7 @@ setup(
     )
 ```
 
-8. add author, author_email, github link,  to `setup.py` file
+## add author, author_email, github link,  to `setup.py` file
 ```python
 
 from setuptools import setup
@@ -82,7 +84,7 @@ setup(
     )
 ```
 
-9. add classifiers to setup.py file
+## add classifiers to setup.py file
 ```python
 from setuptools import setup
 
@@ -103,7 +105,7 @@ setup(
     )
 ```
 
-10. add libarary dependencies to setup.py file
+## add libarary dependencies to setup.py file
 ```python
 from setuptools import setup
 
@@ -130,31 +132,31 @@ setup(
 
 ```
 
-11. run the command $ python setup.py bdist_wheel
+## run the command $ python setup.py bdist_wheel
 ```bash
 python setup.py bdist_whell
 ```
 
-12. install the package locally
+## install the package locally
 ```bash
 pip install -e . 
 ```
 
-13. test the package on an example code file to check that file works well
+## test the package on an example code file to check that file works well
 ```bash
 python example.py
 ```
 
-14. run the following command to check that all files are distributed
+## run the following command to check that all files are distributed
 ```bash
 python setup.py sdist
 ```
-15. run the following command (open the zip file in dist folder)
+## run the following command (open the zip file in dist folder)
 ```bash
 tar tzf dist/py_econometrics-0.0.1.tar.gzdis
 ```
 
-16. in case of missing files in zip file above, run the following commands
+## in case of missing files in zip file above, run the following commands
 ```bash
 pip install check-manifest
 check-manifest --create
@@ -162,14 +164,8 @@ git add MANIFEST.in
 python setup.py sdist
 
 ```
-17 build package with the following commands
-```bash
-python setup.py bdist_wheel sdist
 
-ls dist/
-```
-
-17. push package to pypi
+## push package to pypi
 ```bash
 pip install twine
 
