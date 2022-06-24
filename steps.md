@@ -2,9 +2,16 @@
 # Developing pyhton package
 
 ## write python script with package code e.g package_name.py
-
+```python
+def say_hello(name):
+    print(f"hello {name}"
+```
 ## save the file in a source directory named  "src" directory
-
+```
+src
+├──  package_file_name.py
+ 
+```
 ## create git ignore file and save it in the same directory that has "src" directory
 	- create git ignore file
 	- open gitignore.io in the browser
