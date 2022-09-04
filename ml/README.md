@@ -1,5 +1,5 @@
 
-# pynometrics package
+# ml_processor package
  ml_processor is a package for data preprocessing and fitting machine learning models 
 
  # Installation
@@ -12,7 +12,12 @@ pip install ml_processor
 
 # Usage
  ```python
- import ml_processor as ec
+ from ml_processor import config
+
+ logger = config.get_logger()
+
+ logger.info("Logging successful")
+ 
   ```
 
  ## Contributing
