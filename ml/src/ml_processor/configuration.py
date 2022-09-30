@@ -50,7 +50,7 @@ class config:
         -------
 
         Dic:
-            Dictionary with credentials
+            Stored credentials
 
         """
         
