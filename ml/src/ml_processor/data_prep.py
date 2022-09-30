@@ -26,13 +26,13 @@ class data_prep:
         Data set to transform
 
     features : list or array-like
-        names of columns (variables) to transform using either one hot encoding or woe transformation
+        Names of columns (variables) to transform using either one hot encoding or woe transformation
 
     target : string
-        name of the column with binary labels
+        Name of the column with binary labels
 
-    categories : liat or array-like
-        names of categorical variables in the dataset. 
+    categories : list or array-like
+        Names of categorical variables in the dataset. 
 
 
     """
@@ -58,7 +58,7 @@ class data_prep:
 
         self.optb = None
         
-    def encoder(self):
+    def encoder(self, drop='if_binary', verbose=False):
 
         """
 
@@ -80,24 +80,27 @@ class data_prep:
         
         X = self.data[self.categories].values
         
-        self.enc = OneHotEncoder(handle_unknown='ignore', sparse=False)
+        self.enc = OneHotEncoder(handle_unknown='ignore', drop=drop, sparse=False)
         
         self.enc = self.enc.fit(X)
 
         end = time.process_time()
 
-        self.log.info('OneHotEncoder created')
+        if verbose:
+            self.log.info('OneHotEncoder created')
 
-        self.log.info(f'Runtime for creating encoder: {int(end-start)} seconds')
+        if verbose:
+            self.log.info(f'Runtime for creating encoder: {int(end-start)} seconds')
 
         path = os.path.join(os.getcwd(), 'data_prep', 'encoder')
 
         with open(path, "wb") as file: 
             pickle.dump(self.enc, file)
 
-        self.log.info(f'OneHot encoder saved: {path}')
+        if verbose:
+            self.log.info(f'OneHot encoder saved: {path}')
         
-    def oneHot_transform(self, data=pd.DataFrame()):
+    def oneHot_transform(self, data=pd.DataFrame(), verbose=False):
 
         """
 
@@ -131,9 +134,11 @@ class data_prep:
 
         df_encoded = pd.DataFrame(X_encoded, columns=self.enc.get_feature_names(self.categories))
 
-        self.log.info('Categorical variables succesful encoded')
+        if verbose:
+            self.log.info('Categorical variables succesful encoded')
 
-        self.log.info(f'Runtime for encoding categorical variables: {int(end-start)} seconds')
+        if verbose:
+            self.log.info(f'Runtime for encoding categorical variables: {int(end-start)} seconds')
 
         df_transformed = pd.concat([data.reset_index(drop=True), df_encoded], axis=1)
 
@@ -141,7 +146,8 @@ class data_prep:
 
         self.features = list(set(features + list(df_encoded.columns)))
 
-        self.log.info(f'Total number of features after encoding: {len(self.features)}')
+        if verbose:
+            self.log.info(f'Total number of features after encoding: {len(self.features)}')
         
         self.df_transformed =  df_transformed
 
@@ -149,8 +155,10 @@ class data_prep:
         return df_transformed
         
     def woe_bins(self, min_prebin_size = 0.1, 
-                 selection_criteria = {"iv": {"min": 0.01, "max": 0.7, "strategy": "highest", "top": 50}, "quality_score": {"min": 0.01}},
-                 binning_fit_params = None
+                 selection_criteria = {"iv": {"min": 0.01, "max": 0.7, "strategy": "highest", "top": 50},
+                                       "quality_score": {"min": 0.01}},
+                 binning_fit_params = None,
+                 verbose=False,
                  ):
 
         """
@@ -196,9 +204,11 @@ class data_prep:
 
         end = time.process_time()
 
-        self.log.info(f'Binning processor created')
+        if verbose:
+            self.log.info(f'Binning processor created')
 
-        self.log.info(f'Runtime for creating binning process : {int(end-start)} seconds')
+        if verbose:
+            self.log.info(f'Runtime for creating binning process : {int(end-start)} seconds')
         
         self.binning_process = binning_process
 
@@ -206,7 +216,8 @@ class data_prep:
 
         binning_process.save(path)
 
-        self.log.info(f'Binning processor saved : {path}')
+        if verbose:
+            self.log.info(f'Binning processor saved : {path}')
     
     def woe_bin_table(self):
 
@@ -322,7 +333,7 @@ class data_prep:
         
         plt.show()
         
-    def woe_transform(self, data=pd.DataFrame()):
+    def woe_transform(self, data=pd.DataFrame(), verbose=False):
 
         """
 
@@ -360,15 +371,17 @@ class data_prep:
 
         end = time.process_time()
 
-        self.log.info('Data transformation completed')
+        if verbose:
+            self.log.info('Data transformation completed')
 
-        self.log.info(f'Runtime for woe encoding : {int(end-start)} seconds')
+        if verbose:
+            self.log.info(f'Runtime for woe encoding : {int(end-start)} seconds')
         
         self.df_transformed = df_transformed
         
         return df_transformed
     
-    def woe_features(self):
+    def woe_features(self, verbose=False):
         
         """
 
@@ -391,7 +404,8 @@ class data_prep:
             
         features = self.binning_process.get_support(names=True)
         
-        self.log.info(f'Number of features selected using the selection criteria defined : {len(features)} out of {len(self.features)}')
+        if verbose:
+            self.log.info(f'Number of features selected using the selection criteria defined : {len(features)} out of {len(self.features)}')
         
         return features
     
