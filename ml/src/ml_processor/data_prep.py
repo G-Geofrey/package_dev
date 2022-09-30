@@ -67,7 +67,11 @@ class data_prep:
         Parameters
         ----------
 
-        None 
+        drop : string (default='if_binary', possible values {'first', 'if_binary'} or an array-like of shape (n_features,))  
+            Specifies a methodology to use to drop one of the categories per feature.
+
+        verbose : Boolean (default=False)
+            Log to console or not
 
         Returns
         -------
