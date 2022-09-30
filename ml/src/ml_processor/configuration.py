@@ -11,6 +11,23 @@ import os
 class config: 
         
     def add_path(lib_path=None):
+
+        """
+
+        Add path to working path
+
+        Parameters
+        ----------
+
+        lib_path : string (default=None)
+            Path to add to working path
+
+        Returns
+        -------
+
+        None
+
+        """
         if lib_path:
             sys.path.insert(1, lib_path)
         else:
@@ -18,6 +35,24 @@ class config:
             sys.path.insert(1, lib_path)  
     
     def get_credentials(env_path=None):
+
+        """
+        
+        Get credentials stored in dot file
+
+        Parameters
+        ----------
+        
+        env_path : string (deault=None)
+            Path to dot file with credentials
+
+        Returns
+        -------
+
+        Dic:
+            Dictionary with credentials
+
+        """
         
         if env_path:
             env_path = env_path
@@ -27,6 +62,23 @@ class config:
         return dotenv_values(env_path)
     
     def get_logger(file=None):
+
+        """
+
+        Create logger
+
+        Parameters
+        ----------
+
+        file : string (default=None)
+
+        Returns
+        -------
+
+        object:
+            Logger
+
+        """
 
         logger = logging.getLogger('logger_name')
 
@@ -46,7 +98,13 @@ class config:
 
         if file:
 
-            filehandler = logging.FileHandler(file)
+            if not os.path.isdir('model_artefacts'):
+                
+                os.mkdir('model_artefacts')
+
+            path = os.path.join('model_artefacts', file)
+
+            filehandler = logging.FileHandler(path)
 
             filehandler.setLevel(logging.DEBUG)
 

@@ -4,15 +4,29 @@ import copy
 from ml_processor.configuration import config 
 
 class remove_outliers:
+
     """
-    Class for removing outliers from data.
+
+    Removing outliers from data.
     
-    Attributes:
-        data (pandas dataframe) data set from which to remove outliers
-        columns (list) names of columns from which to remove outliers
-        split (boolean) whether to remove outliers according to different classes of a target column
-        target (string) column name with classes for removing outliers separately if split=True
-        log (boolean) whether to print out information on the results
+    Parameters
+    ----------
+        
+    data : pandas.DataFrame
+        Data set from which to remove outliers
+
+    columns : list or arraay-like 
+        Names of columns from which to remove outliers
+        
+    split :boolean (default=True) 
+        Whether to remove outliers according to different classes of a target column
+        
+    target : string (default='target') 
+        Column name with classes for removing outliers separately if split=True
+
+    log : boolean (default=False)
+        Whether to print out information on the results
+
     """
     def __init__(self, data, columns, split=True, target='target', log=False):
         
@@ -29,14 +43,23 @@ class remove_outliers:
         self.logger = config.get_logger()
     
     def std_method(self, threshold=3):
+
         """
-        Function to remove outliers from data set using the zscore method.
+
+        Remove outliers from data set using the z-score method.
         
-        Args:
-            threshold (int) zscore from which the value is an outlier
+        Parameters
+        ----------
+        
+        threshold : int (default=3) 
+            z-score from which the value is an outlier
             
-        Returns:
-            Dataframe: Pandas dataframe of original dataset without outliers
+        Returns
+        -------
+        
+        pandas.DataFrame: 
+            Dataset of original dataset without outliers
+
         """
         
         data = self.data.copy()
@@ -113,13 +136,21 @@ class remove_outliers:
     def percentile_method(self, threshold=0.95):
 
         """
-        Function to remove outliers from data set using the percentile method.
+
+        Remove outliers from data set using the percentile method.
         
-        Args:
-            threshold (int) percentile for calculating the threshold beyond which values are outliers
+        Parameters
+        ----------
+        
+        threshold : int (default=0.95) 
+            Percentile from which the value is an outlier
             
-        Returns:
-            Dataframe: Pandas dataframe of original dataset without outliers
+        Returns
+        -------
+        
+        pandas.DataFrame: 
+            Dataset of original dataset without outliers
+
         """
         
         data = self.data.copy()
@@ -210,15 +241,22 @@ class remove_outliers:
     
     
     def iqr_method(self):
-        
-        """
-        Function to remove outliers from data set using the inter-quantile method.
 
-        Args:
-            None
+        """
+
+        Remove outliers from data set using the inter-quantile method.
+        
+        Parameters
+        ----------
+        
+        None
             
-        Returns:
-            Dataframe: Pandas dataframe of original dataset without outliers
+        Returns
+        -------
+        
+        pandas.DataFrame: 
+            Dataset of original dataset without outliers
+
         """
 
         data = self.data.copy()
