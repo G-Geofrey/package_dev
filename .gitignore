@@ -2,7 +2,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 ##
-examples/
+**/examples/
+**/build/
+*.egg-info
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
