@@ -17,13 +17,13 @@ def eda_data_quality(data):
     
     """
 
-    Performing data quality checks on data set
+    Performing data quality checks on data set.
     
     Parameters
     ----------
 
     data : pandas.DataFrame 
-        Data set to check
+        Data set to check.
         
     Returns
     -------
@@ -133,24 +133,24 @@ class binary_eda_plot:
     
     """
     
-    Visualizing data for explatory analysis
+    Visualizing data for explatory analysis.
     
     Parameters
     ----------
         
     data : pandas.DataFrame
-        Data set for explatory analysis
+        Data set for explatory analysis.
         
-    plot_columns : dictionary (default=None) 
-        Columns to visualize
+    plot_columns : dict (default=None) 
+        Columns to visualize.
         
     log_columns : list (default=[None]) 
-        Columns to use log scale
+        Columns to use log scale.
         
-    columns :int (default=6)
-        Number of columns in the matplotlib subplots
+    columns : int (default=6)
+        Number of columns in the matplotlib subplots.
     
-    target_palette :dic (default = {1:'red', 0:'deepskyblue'}) 
+    target_palette : dict (default = {1:'red', 0:'deepskyblue'}) 
         Palette for the labels
     
     Returns

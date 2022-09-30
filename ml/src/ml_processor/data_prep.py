@@ -71,7 +71,7 @@ class data_prep:
             Specifies a methodology to use to drop one of the categories per feature.
 
         verbose : Boolean (default=False)
-            Log to console or not
+            Log to console or not.
 
         Returns
         -------
@@ -175,13 +175,17 @@ class data_prep:
         min_prebin_size : float (default=0.1)
             The fraction of minimum number of records for each bin
             
-        selection_criteria : dictionary 
+        selection_criteria : dict or None 
             default
             -------
             {"iv": {"min": 0.001, "max": 0.7, "strategy": "highest", "top": 50}, 
             "quality_score": {"min": 0.001}}
             
             Variable selection criteria
+
+        binning_fit_params : dict or None (default=None)
+            Dictionary with optimal binning transform options for specific
+            variables. Example ``{"variable_1": {"metric": "event_rate"}}``.
             
         Returns
         -------
@@ -265,7 +269,7 @@ class data_prep:
             
         Returns
         -------   
-        self - binning details for columns
+        plot : matplotlib plot
         
         """
         if not self.binning_process:
@@ -341,13 +345,16 @@ class data_prep:
 
         """
 
-        Transform data Weight of Evidence weights
+        Transform data using Weight of Evidence (WOE) weights
         
         Parameters
         ----------
         
         data : pandas.DataFrame (default=empty dataframe)
             Dataset to tranform
+
+        verbose : boolean (default=False)
+            Log to console or not.
             
         Returns
         -------
