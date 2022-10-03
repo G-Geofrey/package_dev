@@ -6,7 +6,7 @@ ml_processor
 
 	* - .. figure:: images/output_38_0.png
 		   :width: 500
-		   :height: 500
+		   :height: 100
 
 .. list-table::
 
