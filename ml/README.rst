@@ -5,10 +5,10 @@ ml_processor
 .. list-table::
 
 	* - .. figure:: images/output_38_0.png
-			:scale: 50%
+			:width: 50%
 
 	* - .. figure:: images/output_23_0.png
-			:scale: 50%
+			:width: 50%
 
 .. list-table::
 
