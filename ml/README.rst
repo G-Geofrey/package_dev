@@ -2,6 +2,8 @@
 ml_processor
 ===========
 
+.. image:: images/output_38_0.png
+
 .. image:: images/output_54_0.png
 
 **ml_processor** is a library written in python for perfoming most of the common data preprocessing tasks involved in building machine learning models. It includes methods for:
