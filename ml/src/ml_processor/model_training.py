@@ -33,31 +33,31 @@ class xgbmodel:
     
     """
 
-    Performing machine learning tasks including hyperparameter tuning and xgb model fitting
+    Performing machine learning tasks including hyperparameter tuning and xgb model fitting.
     
     Parameters
     ----------
         
     df : pandas.Dataframe 
-        Dataset with features and labels
+        Dataset with features and labels.
 
     features : list or array-like 
-        Variable names (features) for fitting the model
+        Variable names (features) for fitting the model.
 
     target : string 
-        Name of column with labels (dependent variable)
+        Name of column with labels (dependent variable).
 
     params_prop : float (default=0.25) 
-        Proportion of data set to use for hyperparameter tuning
+        Proportion of data set to use for hyperparameter tuning.
 
     test_size : float (default=0.33) 
-        Proportion of data to use as the test set
+        Proportion of data to use as the test set.
 
     hyperparams : dictionary (default=None) 
-        Predefined hyperparameters and their values.Specified if hyperparameter tunning is not necessary
+        Predefined hyperparameters and their values.Specified if hyperparameter tunning is not necessary.
     
     scoring : string
-        Performance metric to maximises
+        Performance metric to maximises.
     
     """
 
@@ -198,7 +198,7 @@ class xgbmodel:
         
         """
 
-        Hyperparameter tuning using hyperopt method
+        Hyperparameter tuning using hyperopt method.
 
         Parameters
         ----------
@@ -430,7 +430,7 @@ class xgbmodel:
 
         """
 
-        Fitting model and performing model diagnostics
+        Fitting model and performing model diagnostics.
 
         Parameters
         ---------- 
@@ -441,7 +441,7 @@ class xgbmodel:
         -------
         
         object:
-            xgb model object
+            xgb model object.
         
         """
         
@@ -1230,6 +1230,22 @@ class logitmodel:
         ax.set_title('Features importance', fontsize=12)
         
     def make_plots(self):
+
+        """
+
+        Generate plots for evaluating the performance of the model.
+
+        Parameters
+        ----------
+        
+        None
+        
+        Returns
+        -------
+        
+        Matplotlib plot
+        
+        """
         
         if not self.metrics:
             self.get_metrics()

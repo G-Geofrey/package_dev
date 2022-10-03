@@ -359,8 +359,8 @@ class data_prep:
         Returns
         -------
 
-        df_transformed : pandas.DataFrame
-            Transformed data
+        pandas.DataFrame
+            Transformed data.
         
         """
         
@@ -424,19 +424,19 @@ class data_prep:
         
         """
 
-        Balance data basing on each label size of the label variable
+        Balance data basing on each label size of the label variable.
         
         Parameters
         ----------
         
         data : pandas.DataFrame (default=empty dataframe)
-            Dataset to balance
+            Dataset to balance.
             
         Returns
         -------
 
-        df_transformed : pandas.DataFrame
-            Transformed data
+        pandas.DataFrame
+            Transformed data.
             
         """
 

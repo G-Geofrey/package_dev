@@ -15,25 +15,25 @@ class snowflake_processor:
 
     """
 
-    Performing ETL tasks such as connecting to snowflake and retrieving data from snowflake
+    Performing ETL tasks such as connecting to snowflake and retrieving data from snowflake.
     
     Parameters
     ----------
 
     username : string (default=None) 
-        Username for connecting to snowflake
+        Username for connecting to snowflake.
         
     password : string  (default=None) 
-        Password for connecting to snowflake
+        Password for connecting to snowflake.
 
-    account :string (default=None)  
-        Snowflake account
+    account : string (default=None)  
+        Snowflake account.
 
     warehouse : string (default=None)  
-        Warehouse name
+        Warehouse name.
         
-    database string (default=None) 
-        Database name
+    database : string (default=None) 
+        Database name.
         
     """
 
@@ -73,7 +73,7 @@ class snowflake_processor:
         
         """
         
-        Create connection to snowflake
+        Create connection to snowflake.
 
         Parameters
         ----------
@@ -84,7 +84,7 @@ class snowflake_processor:
         -------
             
         object
-            connection to snowflake
+            connection to snowflake.
 
         """
         
@@ -108,7 +108,7 @@ class snowflake_processor:
         
         """
 
-        Extracting data from snowflake into pandas dataframe
+        Extracting data from snowflake into pandas dataframe.
         
         Parameters
         ----------
@@ -117,17 +117,17 @@ class snowflake_processor:
             Sql statememt for extracting data
             
         conn : object (default=None) 
-            Connection engine to snowflake
+            Connection engine to snowflake.
             
         chunksize : int (default=None)
-            Number of rows to extract from snowflake per iteration if extracting in chunks
+            Number of rows to extract from snowflake per iteration if extracting in chunks.
         
         
         Returns
         -------
 
         Pandas.DataFrame
-            Data extracted fro snowflake
+            Data extracted fro snowflake.
 
         """
         

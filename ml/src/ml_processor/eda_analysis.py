@@ -146,12 +146,15 @@ class binary_eda_plot:
         
     log_columns : list (default=[None]) 
         Columns to use log scale.
+
+    exclude_cols : list (default=[None]) 
+        Columns to not to plot.
         
     columns : int (default=6)
         Number of columns in the matplotlib subplots.
     
     target_palette : dict (default = {1:'red', 0:'deepskyblue'}) 
-        Palette for the labels
+        Palette for the labels.
     
     Returns
     -------
