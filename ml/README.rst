@@ -55,12 +55,16 @@ Tutorials
 ---------
 
 Example: config
+---------------
 
 **config** from the configuration sub-module provides a conveneient way for working with information such as credentials that one might want to keep secret and not include into their script. It also provides an easy of logging information both to the console and creating of log files.
 
+add_path
+________
+
 The method **add_path** adds a specified path to the current working file.
 
-**The method **get_credentials** takse as an argument a path to the location of a stored .env file and returns the contents in the file.
+The method **get_credentials** takse as an argument a path to the location of a stored .env file and returns the contents in the file.
 
 .. code-block:: python
 
