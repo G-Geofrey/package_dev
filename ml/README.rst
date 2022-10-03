@@ -9,14 +9,18 @@ ml_processor
 
 Installation
 ============
+
 To install the latest release of ml_processor from PyPi:
+
 .. code-block:: test
 	
 	pip install ml_processor
 
 Depencies
 ---------
+
 ml-processor requires
+
 * pandas
 * numpy
 * matplotlib
