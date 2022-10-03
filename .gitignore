@@ -5,6 +5,7 @@
 **/examples/
 **/build/
 *.egg-info
+*.DS_Store
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
