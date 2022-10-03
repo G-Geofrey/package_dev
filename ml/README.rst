@@ -6,6 +6,8 @@ ml_processor
 
 	* - .. figure:: images/output_38_0.png
 
+	* - .. figure:: images/output_23_0.png
+
 .. list-table::
 
 	* - .. figure:: images/output_54_0.png
