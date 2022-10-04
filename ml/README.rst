@@ -362,7 +362,7 @@ Example: xgbmodel
 
 Performing machine learning tasks including hyperparameter tuning and xgb model fitting. 
 
-Firts, we initiate the model fitting. We use the data transformed in the previous section uisng WoE transformation.
+First, we initiate the model fitting. We use the data transformed in the previous section uisng WoE transformation.
 
 .. code-blokc:: python
 
