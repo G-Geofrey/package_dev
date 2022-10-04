@@ -104,3 +104,19 @@ Let us load the `Home Credit Default Risk <https://www.kaggle.com/competitions/h
    nonlivingapartments_mode  float64     167   213514       69.4%  0.008076  0.0  0.0  0.0  0.0039  1.0       1       1       0       1       0       0       0.528571
    elevators_medi            float64      46   163891       53.3%  0.078078  0.0  0.0  0.0  0.1200  1.0       1       1       0       1       0       0       0.528571
 
+Example: binary_eda_plot
+------------------------
+
+Visualizes the distribution of labels of a binary target variable within each attribute of the different characteristics (features). For categorical variables, each categorical level is an attribute while for numerical variables, the attributes are created by splitting the variable at different percentiles with each group having 10% of the total data. If the value is the same at different percentiles, on the maximum percentile is considered and all the values upto that percentile assigned the same attribute.
+
+We again use the `Home Credit Default Risk <https://www.kaggle.com/competitions/home-credit-default-risk/data?select=application_train.csv>`_ dataset and plot a few columns. 
+
+.. code-block:: python
+
+   # initiate plots
+   eda_plot = binary_eda_plot(df_plot)
+
+   # generate plots
+   >>> eda_plot.get_plots()
+
+.. image:: images/output_24_0.png
