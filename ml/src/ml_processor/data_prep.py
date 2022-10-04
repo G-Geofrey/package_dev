@@ -421,7 +421,7 @@ class data_prep:
         
         return features
     
-    def balance_data(self, data=pd.DataFrame()):
+    def balance_data(self, target=None, data=pd.DataFrame()):
         
         """
 
@@ -443,10 +443,13 @@ class data_prep:
 
         if len(data) == 0:
             data = self.data
-        
-        minority_size = data[self.target].value_counts()[1]
 
-        self.balanced_df = data.groupby(self.target).sample(minority_size)
+        if not target:
+            target = self.target
+        
+        minority_size = data[target].value_counts()[1]
+
+        self.balanced_df = data.groupby(target).sample(minority_size)
         
         self.balanced_df = self.balanced_df.sample(frac=1)
         

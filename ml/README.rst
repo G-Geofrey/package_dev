@@ -270,3 +270,83 @@ Shows the distribution of the classes within the bins created. We pass the varia
 .. image:: images/output_48_0.png
 
 
+woe_transform
++++++++++++++
+
+Transform data using the binning process created. If data is passed, it should have the same features as those used in fitting the binning process.
+
+.. code-block:: python
+
+   df_woe = init_data.woe_transform()
+   >>> df_woe.head()
+
+.. code-block:: text
+
+      sk_id_curr  name_contract_type  amt_income_total  amt_credit  amt_annuity  amt_goods_price  name_education_type  name_family_status  region_population_relative  days_birth
+   0   -0.101520           -0.065406         -0.042766   -0.089406     0.021714        -0.121048             0.296993           -0.230281                    0.119906    0.224803
+   1   -0.138405            0.754275         -0.124456    0.035788     0.419484        -0.121048            -0.200188            0.100845                    0.119906   -0.015920
+   2   -0.138405           -0.065406         -0.042766   -0.089406     0.156751         0.316737             0.296993            0.100845                   -0.385415   -0.015920
+   3   -0.138405           -0.065406         -0.124456   -0.089406     0.021714        -0.121048            -0.200188           -0.230281                    0.119906   -0.015920
+   4   -0.101520           -0.065406         -0.042766   -0.089406     0.156751         0.316737            -0.200188            0.100845                    0.505606    0.224803
+
+woe_features
+++++++++++++
+
+Get features selected using the selection criteria defined during woe binning with ``woe_bins``
+
+.. code-block:: python
+
+   woe_features = init_data.woe_features()
+   >>> woe_features
+
+.. code-block:: text
+
+   array(['code_gender', 'amt_credit', 'amt_annuity', 'amt_goods_price',
+       'name_income_type', 'name_education_type',
+       'region_population_relative', 'days_birth', 'days_employed',
+       'days_registration', 'days_id_publish', 'flag_emp_phone',
+       'occupation_type', 'region_rating_client',
+       'region_rating_client_w_city', 'reg_city_not_work_city',
+       'organization_type', 'ext_source_1', 'ext_source_2',
+       'ext_source_3', 'apartments_avg', 'basementarea_avg',
+       'years_beginexpluatation_avg', 'elevators_avg', 'entrances_avg',
+       'floorsmax_avg', 'livingarea_avg', 'nonlivingarea_avg',
+       'apartments_mode', 'basementarea_mode',
+       'years_beginexpluatation_mode', 'elevators_mode', 'entrances_mode',
+       'floorsmax_mode', 'livingarea_mode', 'nonlivingarea_mode',
+       'apartments_medi', 'basementarea_medi',
+       'years_beginexpluatation_medi', 'elevators_medi', 'entrances_medi',
+       'floorsmax_medi', 'livingarea_medi', 'nonlivingarea_medi',
+       'housetype_mode', 'totalarea_mode', 'wallsmaterial_mode',
+       'emergencystate_mode', 'days_last_phone_change', 'flag_document_3'],
+      dtype='<U28')
+
+balance_data
+++++++++++++
+
+Balance data basing on target column such that the each of the labels within the target classes has the same amount data which is equal to the minimum size of the labels. If we pass data that is different from the one used when initiating data_prep, the new dataset should have the same target column name or the name of the new target columns should be passed as well.
+
+.. code-block:: python
+
+   df_balanced = init_data.balance_data(df_woe)
+
+Here we balance a new data set different from the one used in intiating data_prep. The target column is however the same and we don't pass any target. The results after balancing can be seen below:
+
+.. code-block:: python
+
+   fig, ax = plt.subplots(1,2, figsize=(8,4))
+
+   sns.countplot(x='target', data=df_woe, hue='target', dodge=False, ax=ax[0], palette=palette)
+
+   sns.countplot(x='target', data=df_balanced, hue='target', dodge=False, ax=ax[1], palette=palette)
+   ax[0].legend('', frameon=False)
+   ax[0].set_title('Unbalanced')
+
+   ax[1].legend('', frameon=False)
+   ax[1].set_title('Balanced')
+
+   plt.subplots_adjust(wspace=0.75)
+
+   plt.show()
+
+.. image:: images/output_46_0.png
