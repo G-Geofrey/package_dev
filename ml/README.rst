@@ -111,6 +111,10 @@ Visualizes the distribution of labels of a binary target variable within each at
 
 We again use the `Home Credit Default Risk <https://www.kaggle.com/competitions/home-credit-default-risk/data?select=application_train.csv>`_ dataset and plot a few columns. 
 
+First we initiate the plots by passing the dataset. If we want to plot specific columns, we pass plot_columns; a dict with variables grouped by their data types e.g {'target': [string name of target column], 'discrete' : [list of discrete columns], 'numeric': [list of numeric columns]}. Incase of columns that should use logarithmic scale, we pass ``log_columns``; alist of columns to use logarithmic scale.
+
+In this example, we simply pass the data and keep the default for the other parameters since we want to plot all columns and we don;t want to have any logarithmoc scales. We also use the default palette {1:'red', 0:'deepskyblue'}; you can change to suit you need.
+
 .. code-block:: python
 
    # initiate plots
@@ -120,3 +124,5 @@ We again use the `Home Credit Default Risk <https://www.kaggle.com/competitions/
    >>> eda_plot.get_plots()
 
 .. image:: images/output_24_0.png
+
+After the plots ahve been initiated, we call the ``get_plots`` method to generate the plots.
