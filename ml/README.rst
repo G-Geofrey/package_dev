@@ -90,11 +90,10 @@ Let us load the `Home Credit Default Risk <https://www.kaggle.com/competitions/h
 
 .. code-block:: text
   
-	   			Bin		Count	Count (%)	Non-event	Event	Event rate	WoE	IV	JS
-   0	(-inf, 0.34)	34244	0.111359	29618	4626	0.135089	-0.575796	0.046968	0.005791
-   1	[0.34, 0.57)	45066	0.146551	41788	3278	0.072738	0.11289	0.001781	0.000223
-   2	[0.57, inf)		54823	0.17828	52673	2150	0.039217	0.76615	0.076404	0.009324
-   3	Special			0	0	0	0	0	0	0	0
-   4	Missing			173378	0.563811	158607	14771	0.085195	-0.058722	0.001993	0.000249
-   Totals				307511	1	282686	24825	0.080729		0.127146	0.015586
+               name      dtype   status  selected n_bins        iv        js      gini quality_score
+   0   ext_source_3  numerical  OPTIMAL      True      6  0.317153  0.038595  0.307837      0.927042
+   1   ext_source_2  numerical  OPTIMAL      True      8  0.307775  0.037361  0.306041       0.91906
+   2   ext_source_1  numerical  OPTIMAL      True      3  0.127146  0.015586  0.169518      0.387648
+   3  days_employed  numerical  OPTIMAL      True      7   0.11093  0.013768  0.184596      0.399716
+   4     days_birth  numerical  OPTIMAL      True      7  0.085185  0.010572   0.16357       0.32957
 
