@@ -90,10 +90,10 @@ Let us load the `Home Credit Default Risk <https://www.kaggle.com/competitions/h
 
 .. code-block:: text
   
-               name      dtype   status  selected n_bins        iv        js      gini quality_score
-   0   ext_source_3  numerical  OPTIMAL      True      6  0.317153  0.038595  0.307837      0.927042
-   1   ext_source_2  numerical  OPTIMAL      True      8  0.307775  0.037361  0.306041       0.91906
-   2   ext_source_1  numerical  OPTIMAL      True      3  0.127146  0.015586  0.169518      0.387648
-   3  days_employed  numerical  OPTIMAL      True      7   0.11093  0.013768  0.184596      0.399716
-   4     days_birth  numerical  OPTIMAL      True      7  0.085185  0.010572   0.16357       0.32957
+                                type  unique  missing pct.missing      mean  min  25%  50%     75%  max  rule_1  rule_2  rule_3  rule_4  rule_5  rule_6  quality_score
+   elevators_mode            float64      26   163891       53.3%  0.074490  0.0  0.0  0.0  0.1208  1.0       1       1       0       1       0       1       0.400000
+   nonlivingapartments_avg   float64     386   213514       69.4%  0.008809  0.0  0.0  0.0  0.0039  1.0       1       1       0       1       0       0       0.528571
+   elevators_avg             float64     257   163891       53.3%  0.078942  0.0  0.0  0.0  0.1200  1.0       1       1       0       1       0       0       0.528571
+   nonlivingapartments_mode  float64     167   213514       69.4%  0.008076  0.0  0.0  0.0  0.0039  1.0       1       1       0       1       0       0       0.528571
+   elevators_medi            float64      46   163891       53.3%  0.078078  0.0  0.0  0.0  0.1200  1.0       1       1       0       1       0       0       0.528571
 
