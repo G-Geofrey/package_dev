@@ -187,9 +187,9 @@ Calling  ``oneHot_transform`` transforms the data using the encoder created usin
    3       0          135000.0         Cash loans           M                                 0.0            1.0
    4       0           67500.0         Cash loans           M                                 0.0            1.0
 
- You can obtain the encoder using the ``encoder`` property.
+You can obtain the encoder using the ``encoder`` property.
 
- .. code-block:: python
+.. code-block:: python
 
     >>> init_data.encoder
 
@@ -239,7 +239,34 @@ To get the created binning process created, use the property ``**binning_process
                                'occupation_type', 'cnt_fam_members',
                                'region_rating_client', ...])
 
-   
+woe_bin_table
++++++++++++++
 
+Shows the summary results of the created bins.
+
+.. code-block:: python
+
+   bin_table = init_data.woe_bin_table()
+   >>> bin_table.head()
+
+.. code-block:: text
+
+                   name        dtype   status  selected n_bins        iv        js      gini quality_score
+   0       ext_source_3    numerical  OPTIMAL      True      6  0.419161  0.050627  0.351672      0.214852
+   1       ext_source_1    numerical  OPTIMAL      True      7  0.325791  0.039244  0.306015      0.185009
+   2       ext_source_2    numerical  OPTIMAL      True      7  0.278363  0.033828  0.286398      0.157844
+   3  organization_type  categorical  OPTIMAL      True      5  0.129885  0.015735  0.170484      0.280232
+   4      days_employed    numerical  OPTIMAL      True      5   0.10551  0.013074  0.176601      0.203093
+
+get_var_bins
++++++++++++
+
+Shows the distribution of the classes within the bins created. We pass the variable whose bins we wish to see.
+
+.. code-block:: python
+
+   >>> init_data.get_var_bins('ext_source_3')
+
+.. image:: images/output_48_0.png
 
 
