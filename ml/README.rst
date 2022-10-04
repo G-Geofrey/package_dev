@@ -2,6 +2,12 @@
 ml_processor
 ===========
 
+**ml_processor** is a library written in python for perfoming most of the common data preprocessing tasks involved in building machine learning models. It includes methods for:
+
+* perfroming necessary data transformation desired for machine learning modesl
+* hyperparameter tunning using different methods notably One Hot encoding and WOE transformation
+* automted machine learning model fitting and model performacne evaluation
+
 .. list-table::
 
 	* - .. figure:: images/output_24_0.png
@@ -10,11 +16,7 @@ ml_processor
 
 	* - .. figure:: images/output_56_0.png
 
-**ml_processor** is a library written in python for perfoming most of the common data preprocessing tasks involved in building machine learning models. It includes methods for:
-
-* perfroming necessary data transformation desired for machine learning modesl
-* hyperparameter tunning using different methods notably One Hot encoding and WOE transformation
-* automted machine learning model fitting and model performacne evaluation
+.. contents:: **Table of Contents**
 
 Installation
 ============
@@ -146,16 +148,30 @@ We initiate the data_prep by passing the data, features and the categories
    # initiate data transformation
    init_data = data_prep(data=df_transform, features=features, categories=categories)
 
-After initiation, we call the method of transformation
+Two types of transfromation are currently possible:
 
-* oneHot_transform - One Hot Encoding transformation
+* One Hot Encoding - For some more details, Jason Brownlee covers  `Why One Hot Encode Data in Machine Learning <https://machinelearningmastery.com/why-one-hot-encode-data-in-machine-learning/>`_.
 
-* woe_transform - Weight of Evidence (WoE) transformation
 
-oneHot_transform
+* Weight of Evidence (WoE) Transformation - Some futher details on the `The binning procedure <https://documentation.sas.com/doc/en/vdmmlcdc/8.1/casstat/viyastat_binning_details02.htm#:~:text=Weight%20of%20evidence%20(WOE)%20is,a%20nonevent%20or%20an%20event.>`_.
+
+
+One Hot Encoding
 ________________
 
-``To transform the data, we call one  oneHot_transform``
+create_encoder
+++++++++++++++
+
+Create One Hot encoder. Running this method creates a folder  ``data_prep`` and saves the created encoder as a pickle file ``encoder``. The saved encoder can be then load as pickle file and used to transform data in othern enviroments like production
+
+.. code-block::python
+
+   encoder = init_data.create_encoder()
+
+oneHot_transform
+++++++++++++++
+
+Calling  ``oneHot_transform`` transform the data using the encoder created using ``create_encoder`` method. If the encoder has not yet been created, calling ``oneHot_transform`` triggers the creation and saving of the encoder first using the ``create_encoder``.
 
 .. code-block:: python
 
