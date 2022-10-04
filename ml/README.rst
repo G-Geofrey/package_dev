@@ -90,16 +90,15 @@ Let us load the `Home Credit Default Risk <https://www.kaggle.com/competitions/h
 
 .. code-block:: text
    
-   2022-10-03 23:15:19,318:INFO:rule_1 : More than 50% of the data missing
-   2022-10-03 23:15:19,319:INFO:rule_2 : Missing some data
-   2022-10-03 23:15:19,319:INFO:rule_3 : 75% of the data is the same and equal to the minimum
-   2022-10-03 23:15:19,319:INFO:rule_4 : 50% of the data is the same and equal to the minimum
-   2022-10-03 23:15:19,320:INFO:rule_5 : Has negative values
-   2022-10-03 23:15:19,320:INFO:rule_6 : Possible wrong data type
-
-   								type	unique	missing		pct.missing		mean	min		25%		50%		75%		max		rule_1	rule_2	rule_3	rule_4	rule_5	rule_6	quality_score
-   elevators_mode				float64		26		163891		53.3%	0.074490	0.0		0.0		0.0		0.1208	1.0			1		1		0		1		0		1	0.400000
-   nonlivingapartments_avg		float64		386		213514		69.4%	0.008809	0.0		0.0		0.0		0.0039	1.0			1		1		0		1		0		0	0.528571
-   elevators_avg				float64		257		163891		53.3%	0.078942	0.0		0.0		0.0		0.1200	1.0			1		1		0		1		0		0	0.528571
-   nonlivingapartments_mode		float64		167		213514		69.4%	0.008076	0.0		0.0		0.0		0.0039	1.0			1		1		0		1		0		0	0.528571
-   elevators_medi				float64		46		163891		53.3%	0.078078	0.0		0.0		0.0		0.1200	1.0			1		1		0		1		0		0	0.528571
+2022-10-03 23:15:19,318:INFO:rule_1 : More than 50% of the data missing
+2022-10-03 23:15:19,319:INFO:rule_2 : Missing some data
+2022-10-03 23:15:19,319:INFO:rule_3 : 75% of the data is the same and equal to the minimum
+2022-10-03 23:15:19,319:INFO:rule_4 : 50% of the data is the same and equal to the minimum
+2022-10-03 23:15:19,320:INFO:rule_5 : Has negative values
+2022-10-03 23:15:19,320:INFO:rule_6 : Possible wrong data type
+	type	unique	missing	pct.missing	mean	min	25%	50%	75%	max	rule_1	rule_2	rule_3	rule_4	rule_5	rule_6	quality_score
+elevators_mode	float64	26	163891	53.3%	0.074490	0.0	0.0	0.0	0.1208	1.0	1	1	0	1	0	1	0.400000
+nonlivingapartments_avg	float64	386	213514	69.4%	0.008809	0.0	0.0	0.0	0.0039	1.0	1	1	0	1	0	0	0.528571
+elevators_avg	float64	257	163891	53.3%	0.078942	0.0	0.0	0.0	0.1200	1.0	1	1	0	1	0	0	0.528571
+nonlivingapartments_mode	float64	167	213514	69.4%	0.008076	0.0	0.0	0.0	0.0039	1.0	1	1	0	1	0	0	0.528571
+elevators_medi	float64	46	163891	53.3%	0.078078	0.0	0.0	0.0	0.1200	1.0	1	1	0	1	0	0	0.528571
