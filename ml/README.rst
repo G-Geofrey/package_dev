@@ -162,16 +162,16 @@ ________________
 create_encoder
 ++++++++++++++
 
-Create One Hot encoder. Running this method creates a folder  ``data_prep`` and saves the created encoder as a pickle file ``encoder``. The saved encoder can be then load as pickle file and used to transform data in othern enviroments like production
+Create One Hot encoder. Running this method creates a sub-directory  ``data_prep`` within the cureent working working directory and saves the created encoder as a pickle file ``encoder``. The saved encoder can be then load as pickle file and used to transform data in othern enviroments like production
 
-.. code-block::python
+.. code-block:: python
 
    encoder = init_data.create_encoder()
 
 oneHot_transform
-++++++++++++++
+++++++++++++++++
 
-Calling  ``oneHot_transform`` transform the data using the encoder created using ``create_encoder`` method. If the encoder has not yet been created, calling ``oneHot_transform`` triggers the creation and saving of the encoder first using the ``create_encoder``.
+Calling  ``oneHot_transform`` transforms the data using the encoder created using ``create_encoder`` method. If the encoder has not yet been created, calling ``oneHot_transform`` triggers the creation and saving of the encoder first using the ``create_encoder``.
 
 .. code-block:: python
 
@@ -186,5 +186,60 @@ Calling  ``oneHot_transform`` transform the data using the encoder created using
    2       0          450000.0         Cash loans           M                                 0.0            1.0
    3       0          135000.0         Cash loans           M                                 0.0            1.0
    4       0           67500.0         Cash loans           M                                 0.0            1.0
+
+ You can obtain the encoder using the ``encoder`` property.
+
+ .. code-block:: python
+
+    >>> init_data.encoder
+
+    OneHotEncoder(drop='if_binary', handle_unknown='ignore', sparse=False)
+
+WoE transformation
+__________________
+
+The WoE transformation executes several methods from **optbinning** provided by Guillermo Navas-Palencia. Further details can be found on github `OptBinning <https://github.com/guillermo-navas-palencia/optbinning>`_.
+
+
+woe_bins
+++++++++
+
+Generate binning process for woe transformation. The binning process created is saved as ``binningprocess.pkl`` in the sub-directory ``data_prep`` in the current working directory
+
+.. code-block:: python
+  
+   init_data.woe_bins()
+
+To get the created binning process created, use the property ``**binning_process**``
+
+.. code-block:: python
+
+   >>> init_data.binning_process
+
+.. code-block:: text
+
+   BinningProcess(categorical_variables=['name_contract_type', 'code_gender',
+                                      'flag_own_car', 'flag_own_realty',
+                                      'name_type_suite', 'name_income_type',
+                                      'name_education_type',
+                                      'name_family_status', 'name_housing_type',
+                                      'occupation_type',
+                                      'weekday_appr_process_start',
+                                      'organization_type', 'fondkapremont_mode',
+                                      'housetype_mode', 'wallsmaterial_mode',
+                                      'emergencystate_mo...
+                               'name_type_suite', 'name_income_type',
+                               'name_education_type', 'name_family_status',
+                               'name_housing_type',
+                               'region_population_relative', 'days_birth',
+                               'days_employed', 'days_registration',
+                               'days_id_publish', 'own_car_age', 'flag_mobil',
+                               'flag_emp_phone', 'flag_work_phone',
+                               'flag_cont_mobile', 'flag_phone', 'flag_email',
+                               'occupation_type', 'cnt_fam_members',
+                               'region_rating_client', ...])
+
+   
+
 
 
