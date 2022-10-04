@@ -1,3 +1,4 @@
+%%time
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
@@ -54,11 +55,11 @@ class data_prep:
         
         self.binning_process = None
         
-        self.enc = None
+        self.encoder = None
 
         self.optb = None
         
-    def encoder(self, drop='if_binary', verbose=False):
+    def create_encoder(self, drop='if_binary', verbose=False):
 
         """
 
@@ -84,9 +85,9 @@ class data_prep:
         
         X = self.data[self.categories].values
         
-        self.enc = OneHotEncoder(handle_unknown='ignore', drop=drop, sparse=False)
+        self.encoder = OneHotEncoder(handle_unknown='ignore', drop=drop, sparse=False)
         
-        self.enc = self.enc.fit(X)
+        self.encoder = self.encoder.fit(X)
 
         end = time.process_time()
 
@@ -99,7 +100,7 @@ class data_prep:
         path = os.path.join(os.getcwd(), 'data_prep', 'encoder')
 
         with open(path, "wb") as file: 
-            pickle.dump(self.enc, file)
+            pickle.dump(self.encoder, file)
 
         if verbose:
             self.log.info(f'OneHot encoder saved: {path}')
@@ -127,16 +128,16 @@ class data_prep:
 
         X = data[self.categories].values
 
-        if not self.enc:
-            self.encoder()
+        if not self.encoder:
+            self.create_encoder()
 
         start = time.process_time()
 
-        X_encoded = self.enc.transform(X)
+        X_encoded = self.encoder.transform(X)
 
         end = time.process_time()
 
-        df_encoded = pd.DataFrame(X_encoded, columns=self.enc.get_feature_names(self.categories))
+        df_encoded = pd.DataFrame(X_encoded, columns=self.encoder.get_feature_names(self.categories))
 
         if verbose:
             self.log.info('Categorical variables succesful encoded')
