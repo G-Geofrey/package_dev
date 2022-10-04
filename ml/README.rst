@@ -104,6 +104,8 @@ Let us load the `Home Credit Default Risk <https://www.kaggle.com/competitions/h
    nonlivingapartments_mode  float64     167   213514       69.4%  0.008076  0.0  0.0  0.0  0.0039  1.0       1       1       0       1       0       0       0.528571
    elevators_medi            float64      46   163891       53.3%  0.078078  0.0  0.0  0.0  0.1200  1.0       1       1       0       1       0       0       0.528571
 
+We pass ``data`` and generate the quality score for all the columns in the data.
+
 Example: binary_eda_plot
 ------------------------
 
@@ -111,9 +113,9 @@ Visualizes the distribution of labels of a binary target variable within each at
 
 We again use the `Home Credit Default Risk <https://www.kaggle.com/competitions/home-credit-default-risk/data?select=application_train.csv>`_ dataset and plot a few columns. 
 
-First we initiate the plots by passing the dataset. If we want to plot specific columns, we pass plot_columns; a dict with variables grouped by their data types e.g {'target': [string name of target column], 'discrete' : [list of discrete columns], 'numeric': [list of numeric columns]}. Incase of columns that should use logarithmic scale, we pass ``log_columns``; alist of columns to use logarithmic scale.
+First we initiate the plots by passing the dataset. If we want to plot specific columns, we pass ``plot_columns``; a dict with variables grouped by their data types ``e.g {'target': [string name of target column], 'discrete' : [list of discrete columns], 'numeric': [list of numeric columns]}``. Incase of columns that should use logarithmic scale, we pass ``log_columns``; alist of columns to use logarithmic scale.
 
-In this example, we simply pass the data and keep the default for the other parameters since we want to plot all columns and we don;t want to have any logarithmoc scales. We also use the default palette {1:'red', 0:'deepskyblue'}; you can change to suit you need.
+In this example, we simply pass the data and keep the default for the other parameters since we want to plot all columns and we don;t want to have any logarithmoc scales. We also use the default palette ``{1:'red', 0:'deepskyblue'}``; you can change to suit you need.
 
 .. code-block:: python
 
@@ -126,3 +128,47 @@ In this example, we simply pass the data and keep the default for the other para
 .. image:: images/output_24_0.png
 
 After the plots ahve been initiated, we call the ``get_plots`` method to generate the plots.
+
+Example: data_prep
+------------------
+
+``data_prep`` provides a conevient way for transforming data into formats that machine learning models can work with more easily
+
+We initiate the data_prep by passing the data, features and the categories
+
+.. code-block :: python
+   
+   # define the variables
+   target = 'target'
+   features = ['amt_income_total', 'name_contract_type','code_gender']
+   categories = ['name_contract_type','code_gender']
+
+   # initiate data transformation
+   init_data = data_prep(data=df_transform, features=features, categories=categories)
+
+After initiation, we call the method of transformation
+
+* oneHot_transform - One Hot Encoding transformation
+
+* woe_transform - Weight of Evidence (WoE) transformation
+
+oneHot_transform
+________________
+
+``To transform the data, we call one  oneHot_transform``
+
+.. code-block:: python
+
+   df_encode = init_data.oneHot_transform()
+   >>> df_encode.head()
+
+.. code-block:: python
+
+      target  amt_income_total name_contract_type code_gender  name_contract_type_Revolving loans  code_gender_M
+   0       0          315000.0         Cash loans           M                                 0.0            1.0
+   1       0          382500.0         Cash loans           F                                 0.0            0.0
+   2       0          450000.0         Cash loans           M                                 0.0            1.0
+   3       0          135000.0         Cash loans           M                                 0.0            1.0
+   4       0           67500.0         Cash loans           M                                 0.0            1.0
+
+
