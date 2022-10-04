@@ -311,15 +311,21 @@ df = pd.read_csv('./data/application_train.csv')
 
 
 ```python
-eda_data_quality(df).head()
+df.columns = map(lambda x: x.lower(), df.columns)
 ```
 
-    2022-09-30 20:17:15,974:INFO:rule_1 : More than 50% of the data missing
-    2022-09-30 20:17:15,975:INFO:rule_2 : Missing some data
-    2022-09-30 20:17:15,975:INFO:rule_3 : 75% of the data is the same and equal to the minimum
-    2022-09-30 20:17:15,976:INFO:rule_4 : 50% of the data is the same and equal to the minimum
-    2022-09-30 20:17:15,976:INFO:rule_5 : Has negative values
-    2022-09-30 20:17:15,976:INFO:rule_6 : Possible wrong data type
+
+```python
+results = eda_data_quality(df).head()
+results
+```
+
+    2022-10-03 23:15:19,318:INFO:rule_1 : More than 50% of the data missing
+    2022-10-03 23:15:19,319:INFO:rule_2 : Missing some data
+    2022-10-03 23:15:19,319:INFO:rule_3 : 75% of the data is the same and equal to the minimum
+    2022-10-03 23:15:19,319:INFO:rule_4 : 50% of the data is the same and equal to the minimum
+    2022-10-03 23:15:19,320:INFO:rule_5 : Has negative values
+    2022-10-03 23:15:19,320:INFO:rule_6 : Possible wrong data type
 
 
 
@@ -364,104 +370,104 @@ eda_data_quality(df).head()
   </thead>
   <tbody>
     <tr>
-      <th>reg_city_not_live_city</th>
-      <td>int64</td>
-      <td>2</td>
-      <td>0</td>
-      <td>0.0%</td>
-      <td>0.0372</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>1.0000</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0.6429</td>
-    </tr>
-    <tr>
-      <th>amt_req_credit_bureau_qrt</th>
+      <th>elevators_mode</th>
       <td>float64</td>
-      <td>8</td>
-      <td>0</td>
-      <td>0.0%</td>
-      <td>0.2581</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>8.0000</td>
-      <td>0</td>
+      <td>26</td>
+      <td>163891</td>
+      <td>53.3%</td>
+      <td>0.074490</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.1208</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>1</td>
       <td>0</td>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
       <td>1</td>
-      <td>0.6429</td>
+      <td>0.400000</td>
     </tr>
     <tr>
-      <th>flag_document_10</th>
-      <td>int64</td>
-      <td>2</td>
-      <td>0</td>
-      <td>0.0%</td>
-      <td>0.0001</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>1.0000</td>
-      <td>0</td>
+      <th>nonlivingapartments_avg</th>
+      <td>float64</td>
+      <td>386</td>
+      <td>213514</td>
+      <td>69.4%</td>
+      <td>0.008809</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0039</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>1</td>
       <td>0</td>
       <td>1</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
-      <td>0.6429</td>
+      <td>0.528571</td>
     </tr>
     <tr>
-      <th>flag_mobil</th>
-      <td>int64</td>
+      <th>elevators_avg</th>
+      <td>float64</td>
+      <td>257</td>
+      <td>163891</td>
+      <td>53.3%</td>
+      <td>0.078942</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.1200</td>
+      <td>1.0</td>
+      <td>1</td>
       <td>1</td>
       <td>0</td>
-      <td>0.0%</td>
-      <td>1.0000</td>
-      <td>1.0000</td>
-      <td>1.0000</td>
-      <td>1.0000</td>
-      <td>1.0000</td>
-      <td>1.0000</td>
-      <td>0</td>
-      <td>0</td>
       <td>1</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
-      <td>0.6429</td>
+      <td>0.528571</td>
     </tr>
     <tr>
-      <th>flag_document_4</th>
-      <td>int64</td>
+      <th>nonlivingapartments_mode</th>
+      <td>float64</td>
+      <td>167</td>
+      <td>213514</td>
+      <td>69.4%</td>
+      <td>0.008076</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0039</td>
+      <td>1.0</td>
+      <td>1</td>
       <td>1</td>
       <td>0</td>
-      <td>0.0%</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
-      <td>0.0000</td>
+      <td>1</td>
       <td>0</td>
+      <td>0</td>
+      <td>0.528571</td>
+    </tr>
+    <tr>
+      <th>elevators_medi</th>
+      <td>float64</td>
+      <td>46</td>
+      <td>163891</td>
+      <td>53.3%</td>
+      <td>0.078078</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.1200</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>1</td>
       <td>0</td>
       <td>1</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
-      <td>0.6429</td>
+      <td>0.528571</td>
     </tr>
   </tbody>
 </table>
@@ -525,13 +531,14 @@ from ml_processor.eda_analysis import binary_eda_plot
 
 
 ```python
+check_columns = ['ext_source_3', 'target', 'occupation_type', 'name_education_type']
 eda_plot = binary_eda_plot(df[check_columns])
 eda_plot.get_plots()
 ```
 
 
     
-![png](images/output_23_0.png)
+![png](output_24_0.png)
     
 
 
@@ -841,7 +848,7 @@ categories = [col for col in df.columns if str(df[col].dtype)=='object' and col 
 
 ```python
 # initiate data transformation
-init_data = data_prep1(data=df, features=features, categories=categories)
+init_data = data_prep(data=df, features=features, categories=categories)
 ```
 
 
@@ -850,6 +857,11 @@ init_data = data_prep1(data=df, features=features, categories=categories)
 bin_table = init_data.woe_bin_table()
 bin_table.head()
 ```
+
+    2022-10-04 10:19:04,284:INFO:Binning processor created
+    2022-10-04 10:19:04,284:INFO:Runtime for creating binning process : 5 seconds
+    2022-10-04 10:19:04,291:INFO:Binning processor saved : /Users/geofrey.wanyama/Desktop/libraries copy/ml copy/examples/data_prep/binningprocess.pkl
+
 
 
 
@@ -951,6 +963,230 @@ bin_table.head()
 
 
 
+```python
+bin_table.head(15)
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>dtype</th>
+      <th>status</th>
+      <th>selected</th>
+      <th>n_bins</th>
+      <th>iv</th>
+      <th>js</th>
+      <th>gini</th>
+      <th>quality_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ext_source_3</td>
+      <td>numerical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>6</td>
+      <td>0.317153</td>
+      <td>0.038595</td>
+      <td>0.307837</td>
+      <td>0.927042</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ext_source_2</td>
+      <td>numerical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>8</td>
+      <td>0.307775</td>
+      <td>0.037361</td>
+      <td>0.306041</td>
+      <td>0.91906</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ext_source_1</td>
+      <td>numerical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>3</td>
+      <td>0.127146</td>
+      <td>0.015586</td>
+      <td>0.169518</td>
+      <td>0.387648</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>days_employed</td>
+      <td>numerical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>7</td>
+      <td>0.11093</td>
+      <td>0.013768</td>
+      <td>0.184596</td>
+      <td>0.399716</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>days_birth</td>
+      <td>numerical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>7</td>
+      <td>0.085185</td>
+      <td>0.010572</td>
+      <td>0.16357</td>
+      <td>0.32957</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>amt_goods_price</td>
+      <td>numerical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>6</td>
+      <td>0.081604</td>
+      <td>0.010117</td>
+      <td>0.154597</td>
+      <td>0.313763</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>occupation_type</td>
+      <td>categorical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>4</td>
+      <td>0.078079</td>
+      <td>0.009723</td>
+      <td>0.147904</td>
+      <td>0.292438</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>organization_type</td>
+      <td>categorical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>5</td>
+      <td>0.069711</td>
+      <td>0.008666</td>
+      <td>0.144075</td>
+      <td>0.262195</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>name_income_type</td>
+      <td>categorical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>3</td>
+      <td>0.057651</td>
+      <td>0.007171</td>
+      <td>0.121492</td>
+      <td>0.183058</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>amt_credit</td>
+      <td>numerical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>7</td>
+      <td>0.053096</td>
+      <td>0.006603</td>
+      <td>0.12664</td>
+      <td>0.208186</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>region_rating_client_w_city</td>
+      <td>numerical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>3</td>
+      <td>0.051201</td>
+      <td>0.006341</td>
+      <td>0.098364</td>
+      <td>0.108519</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>name_education_type</td>
+      <td>categorical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>2</td>
+      <td>0.049654</td>
+      <td>0.006166</td>
+      <td>0.089604</td>
+      <td>0.100955</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>region_rating_client</td>
+      <td>numerical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>3</td>
+      <td>0.048317</td>
+      <td>0.005986</td>
+      <td>0.096126</td>
+      <td>0.10477</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>days_last_phone_change</td>
+      <td>numerical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>6</td>
+      <td>0.047079</td>
+      <td>0.005862</td>
+      <td>0.115003</td>
+      <td>0.176265</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>days_id_publish</td>
+      <td>numerical</td>
+      <td>OPTIMAL</td>
+      <td>True</td>
+      <td>8</td>
+      <td>0.039678</td>
+      <td>0.004945</td>
+      <td>0.111662</td>
+      <td>0.037242</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
 <div style="margin-left:25px;">
     <p style="">
         <span style="background-color:#ECECEC; border-left: 2.5px solid #D4D4D4; padding: 5px">
@@ -989,12 +1225,12 @@ bin_table.head()
 
 
 ```python
-init_data.get_var_bins('ext_source_3')
+init_data.get_var_bins('organization_type')
 ```
 
 
     
-![png](images/output_38_0.png)
+![png](output_40_0.png)
     
 
 
@@ -1324,7 +1560,7 @@ df_balanced = init_data.balance_data(df_woe)
 
 
     
-![png](images/output_44_0.png)
+![png](output_46_0.png)
     
 
 
@@ -1535,7 +1771,7 @@ xgb_woe.make_plots()
 
 
     
-![png](images/output_54_0.png)
+![png](output_56_0.png)
     
 
 
