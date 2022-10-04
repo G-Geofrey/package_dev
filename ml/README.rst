@@ -88,6 +88,8 @@ Let us load the `Home Credit Default Risk <https://www.kaggle.com/competitions/h
 
    df = pd.read_csv('./data/application_train.csv')
 
+   from ml_processor.eda_analysis import eda_data_quality
+
    >>> eda_data_quality(df).head()
 
 .. code-block:: text
@@ -121,6 +123,8 @@ In this example, we simply pass the data and keep the default for the other para
 
 .. code-block:: python
 
+   from ml_processor.eda_analysis import binary_eda_plot
+
    # initiate plots
    eda_plot = binary_eda_plot(df_plot)
 
@@ -144,6 +148,8 @@ We initiate the data_prep by passing the data, features and the categories
    target = 'target'
    features = ['amt_income_total', 'name_contract_type','code_gender']
    categories = ['name_contract_type','code_gender']
+
+   from ml_processor.data_prep import data_prep
 
    # initiate data transformation
    init_data = data_prep(data=df_transform, features=features, categories=categories)
@@ -324,7 +330,7 @@ Get features selected using the selection criteria defined during woe binning wi
 balance_data
 ++++++++++++
 
-Balance data basing on target column such that the each of the labels within the target classes has the same amount data which is equal to the minimum size of the labels. If we pass data that is different from the one used when initiating data_prep, the new dataset should have the same target column name or the name of the new target columns should be passed as well.
+Balance data based on target column such that  each of the labels within the target classes has the same amount of data which is equal to the minimum size of the labels. If we pass data that is different from the one used when initiating data_prep, the new dataset should have the same target column name or the name of the new target columns should be passed as well.
 
 .. code-block:: python
 
@@ -350,3 +356,74 @@ Here we balance a new data set different from the one used in intiating data_pre
    plt.show()
 
 .. image:: images/output_46_0.png
+
+Example: xgbmodel
+-----------------
+
+Performing machine learning tasks including hyperparameter tuning and xgb model fitting. 
+
+Firts, we initiate the model fitting. We use the data transformed in the previous section uisng WoE transformation.
+
+.. code-blokc:: python
+
+   from ml_processor.model_training import xgbmodel
+
+   xgb_woe = xgbmodel(df_balanced
+                   ,features=woe_features
+                   ,target=target
+                   ,hyperparams=None
+                   ,test_size=0.25
+                   ,params_prop=0.1
+                      )
+
+model_results
+_____________
+
+Fitting model and performing model diagnostics.
+
+.. code-block:: python 
+
+   >>> xgb_model = xgb_woe.model_results()
+
+.. code-block:: text
+
+	2022-10-03 10:05:55,337:INFO:Splitting data into training and testing sets completed
+	2022-10-03 10:05:55,338:INFO:Training data set:37237 rows
+	2022-10-03 10:05:55,339:INFO:Testing data set:12413 rows
+	2022-10-03 10:05:55,339:INFO:Hyper parameter tuning data set created
+	2022-10-03 10:05:55,340:INFO:Hyper parameter tuning data set:4965 rows
+	2022-10-03 10:05:55,346:INFO:Splitting hyperparameter tuning data into training and testing sets completed
+	2022-10-03 10:05:55,347:INFO:Hyperparameter tuning training data set:3723 rows
+	2022-10-03 10:05:55,347:INFO:Hyperparameter tuning testing data set:1242 rows
+	2022-10-03 10:05:55,348:INFO:Trials initialized...
+	100%|████████| 48/48 [00:26<00:00,  1.78trial/s, best loss: -0.7320574162679426]
+	2022-10-03 10:06:22,352:INFO:Hyperparameter tuning completed
+	2022-10-03 10:06:22,353:INFO:Runtime for Hyperparameter tuning : 0 seconds
+	2022-10-03 10:06:22,354:INFO:Best parameters: {'colsample_bytree': 0.3, 'gamma': 0.2, 'learning_rate': 0.01, 'max_depth': 11, 'reg_alpha': 100, 'reg_lambda': 10}
+	2022-10-03 10:06:22,354:INFO:Model fitting initialized...
+	2022-10-03 10:06:22,355:INFO:Model fitting started...
+	2022-10-03 10:06:24,334:INFO:Model fitting completed
+	2022-10-03 10:06:24,334:INFO:Runtime for fitting the model : 11 seconds
+	2022-10-03 10:06:24,338:INFO:Model saved: ./model_artefacts/xgbmodel_20221003100547.sav
+	2022-10-03 10:06:24,341:INFO:Dataframe with feature importance generated
+	2022-10-03 10:06:24,363:INFO:Predicted labels generated (test)
+	2022-10-03 10:06:24,381:INFO:Predicted probabilities generated (test)
+	2022-10-03 10:06:24,385:INFO:Confusion matrix generated (test)
+	2022-10-03 10:06:24,390:INFO:AUC (test): 73%
+	2022-10-03 10:06:24,395:INFO:Precision (test): 68%
+	2022-10-03 10:06:24,395:INFO:Recall (test): 67%
+	2022-10-03 10:06:24,396:INFO:F_score (test): 67%
+	2022-10-03 10:06:24,398:INFO:Precision and Recall values for the precision recall curve created
+	2022-10-03 10:06:24,401:INFO:True positive and negativevalues for the ROC curve created
+	2022-10-03 10:06:24,451:INFO:Recall and precision calculation for different thresholds (test) completed
+
+model_results
+_____________
+
+Model Evaluation
+
+.. code-block:: python
+
+   >>> xgb_woe.make_plots()
+
+.. image:: images/output_56_0.png
