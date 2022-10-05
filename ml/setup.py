@@ -4,7 +4,8 @@ import os
 
 
 
-path = os.path.join(os.environ.get('HOME'), 'Library/CloudStorage/OneDrive-MoneseLtd/GW/libraries/ml/README.md')
+path = os.path.join(os.environ.get('HOME'), 'Desktop/package_dev/ml/README.rst')
+
 
 with open(path, "r") as fh:
     long_description = fh.read()
@@ -13,25 +14,27 @@ setup(
     # name that will be imported, can be different from code file name
     name='ml_processor',
 
-    version='0.0.6',
+    version='0.4.17',
 
     description='Includes functions for performing econometrics tasks',
 
     # code file name without file extension
-    py_modules=['configuration', 'eda_analysis', 'encoders', 'jsonSerializer', 'model_training' 'outliers' 'snowflake_processor'],
+    # py_modules=['configuration', 'eda_analysis', 'encoders', 'jsonSerializer', 'model_training' 'outliers' 'snowflake_processor'],
+
+    packages=['ml_processor']
 
     # directory in which code file is stored
     package_dir={'':'src'},
 
     long_description=long_description,
 
-    long_description_content_type="text/markdown",
+    # long_description_content_type="text/markdown",
 
     author="Geofrey Wanyama",
 
     author_email="wanyamag17@gmail.com",
 
-    url="https://github.com/G-Geofrey/ml_processor.git",
+    url="https://github.com/G-Geofrey/package_dev/tree/master/ml",
 
     zip_safe=False,
 
