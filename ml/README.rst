@@ -426,4 +426,4 @@ Model Evaluation
 
    >>> xgb_woe.make_plots()
 
-.. image:: images/output_56_0.png
+.. image:: https://github.com/G-Geofrey/package_dev/blob/master/ml/images/output_56_0.png
