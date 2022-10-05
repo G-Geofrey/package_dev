@@ -1,6 +1,6 @@
-===========
+============
 ml_processor
-===========
+============
 
 **ml_processor** is a library written in python for perfoming most of the common data preprocessing tasks involved in building machine learning models. It includes methods for:
 
@@ -44,7 +44,7 @@ ml-processor requires
 * pickle
 * joblib
 * snowflake
-* sqlalchemy
+* sqlalchemy+
 * xgboost
 * statsmodels
 * hyperopt
@@ -265,7 +265,7 @@ Shows the summary results of the created bins.
    4      days_employed    numerical  OPTIMAL      True      5   0.10551  0.013074  0.176601      0.203093
 
 get_var_bins
-+++++++++++
+++++++++++++
 
 Shows the distribution of the classes within the bins created. We pass the variable whose bins we wish to see.
 
@@ -364,7 +364,7 @@ Performing machine learning tasks including hyperparameter tuning and xgb model 
 
 First, we initiate the model fitting. We use the data transformed in the previous section uisng WoE transformation.
 
-.. code-blokc:: python
+.. code-block:: python
 
    from ml_processor.model_training import xgbmodel
 

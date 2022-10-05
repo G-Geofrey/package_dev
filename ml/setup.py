@@ -21,7 +21,7 @@ setup(
     # code file name without file extension
     # py_modules=['configuration', 'eda_analysis', 'encoders', 'jsonSerializer', 'model_training' 'outliers' 'snowflake_processor'],
 
-    packages=['ml_processor']
+    packages=['ml_processor'],
 
     # directory in which code file is stored
     package_dir={'':'src'},
@@ -29,6 +29,8 @@ setup(
     long_description=long_description,
 
     # long_description_content_type="text/markdown",
+
+    long_description_content_type="text/x-rst",
 
     author="Geofrey Wanyama",
 
