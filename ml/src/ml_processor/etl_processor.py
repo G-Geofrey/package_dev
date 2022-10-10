@@ -5,9 +5,11 @@ import pandas as pd
 
 from snowflake.sqlalchemy import URL
 from sqlalchemy import create_engine
+from cryptography.fernet import Fernet
 
 from ml_processor.configuration import config
 import time
+import os
 
 
 
@@ -37,37 +39,28 @@ class snowflake_processor:
         
     """
 
-    def __init__(self, username=None, password=None, account=None, warehouse=None, database=None):
+    def __init__(self, 
+        credentials = None, 
+        credential_path = os.path.join(os.environ["HOME"], 'Desktop/package_dev/credentials/encrypted_credentials.csv'),
+        key_path = os.path.join(os.environ["HOME"], 'Desktop/package_dev/credentials/sf_key.key')
+        ):
         
-        self.credentials = config.get_credentials()
-        
+        if credentials:
+            self.credentials = credentials
+        else:
+            with open(key_path, 'rb') as keyfile:
+                key = keyfile.read()
+            
+            with open(credential_path, 'rb') as credfile:
+                creds = credfile.read()
+
+            fernet = Fernet(key)
+
+            creds = fernet.decrypt(creds).decode()
+
+            self.credentials = json.loads(creds)
+
         self.logger = config.get_logger()
-        
-        if not username:
-            self.username = self.credentials.get("snowflake_user")
-        else:
-            self.username = username
-            
-        if not password:
-            self.password = self.credentials.get("snowflake_password")
-        else:
-            self.password = password
-            
-        if not account:
-            self.account = self.credentials.get("account")
-        else:
-            self.account = account
-            
-        
-        if not warehouse:
-            self.warehouse = self.credentials.get("warehouse")
-        else:
-            self.warehouse = warehouse
-            
-        if not database:
-            self.database = self.credentials.get("database")
-        else:
-            self.database = database
 
     def connect(self):
         
@@ -91,14 +84,14 @@ class snowflake_processor:
         try:
             engine = create_engine(
                 URL(
-                    account = self.account,
-                    user = self.username,
-                    password = self.password,
-                    database = self.database,
-                    warehouse = self.warehouse,
+                    account = self.credentials.get('account'),
+                    user = self.credentials.get('username'),
+                    password = self.credentials.get('password'),
+                    database = self.credentials.get('database'),
+                    warehouse = self.credentials.get('warehouse'),
                 )
             )
-            self.logger.info(f'Connection to {self.account} successful')
+            self.logger.info(f'Connection to {self.credentials.get("account")} successful')
         except:
             self.logger.error('Exception occured', exc_info=True)
         else:
