@@ -542,7 +542,7 @@ class xgbmodel:
         
         sns.kdeplot(data=df_pred, x='pred_prob', hue='pred_class', fill=True, legend=False, palette=palette, ax=ax)
         
-        ax.set_facecolor('#192841')
+        ax.set_facecolor('#274472')
         
         ax.set_xlabel('Probability of event', fontsize=12, color='white')
         

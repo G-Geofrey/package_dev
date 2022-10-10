@@ -62,7 +62,7 @@ class snowflake_processor:
         if not warehouse:
             self.warehouse = self.credentials.get("warehouse")
         else:
-            self.warehouse
+            self.warehouse = warehouse
             
         if not database:
             self.database = self.credentials.get("database")
