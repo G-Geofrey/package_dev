@@ -10,6 +10,7 @@ from cryptography.fernet import Fernet
 from ml_processor.configuration import config
 import time
 import os
+import json
 
 
 
@@ -22,32 +23,34 @@ class snowflake_processor:
     Parameters
     ----------
 
-    username : string (default=None) 
-        Username for connecting to snowflake.
+    credentials : dick (default=None) 
+        Dictionary with connection credentials e.g
+        >>> {'username':'myUserName', 'password':'******', 'account':'snowfalkeAccount', 'warehouse':'warehouseName', 'database':'dataName'}
         
-    password : string  (default=None) 
-        Password for connecting to snowflake.
+    credential_path : string  (default=None) 
+        Path to credentials stored in an enrypted file. This should only be provided if credentials have not been provided. 
+        The contents of the file should be a dictionary encrypted using Fernet.
 
-    account : string (default=None)  
-        Snowflake account.
-
-    warehouse : string (default=None)  
-        Warehouse name.
-        
-    database : string (default=None) 
-        Database name.
+    key_path : string (default=None)  
+        Path to Fernet key for decrypting the file provided using the credential_path..
         
     """
 
     def __init__(self, 
         credentials = None, 
-        credential_path = os.path.join(os.environ["HOME"], 'Desktop/package_dev/credentials/encrypted_credentials.csv'),
-        key_path = os.path.join(os.environ["HOME"], 'Desktop/package_dev/credentials/sf_key.key')
+        credential_path = None,
+        key_path = None,
         ):
         
         if credentials:
             self.credentials = credentials
         else:
+            if not credential_path:
+                credential_path = os.path.join(os.environ["HOME"], 'Desktop/package_dev/credentials/encrypted_credentials.csv')
+
+            if not key_path:
+                key_path = os.path.join(os.environ["HOME"], 'Desktop/package_dev/credentials/sf_key.key')
+
             with open(key_path, 'rb') as keyfile:
                 key = keyfile.read()
             
