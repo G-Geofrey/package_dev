@@ -1,7 +1,7 @@
 
 import logging
 import sys
-from dotenv import dotenv_values 
+# from dotenv import dotenv_values 
 import json
 import numpy as np
 import os
@@ -10,56 +10,56 @@ import os
 
 class config: 
         
-    def add_path(lib_path=None):
+    # def add_path(lib_path=None):
 
-        """
+    #     """
 
-        Add path to working path
+    #     Add path to working path
 
-        Parameters
-        ----------
+    #     Parameters
+    #     ----------
 
-        lib_path : string (default=None)
-            Path to add to working path
+    #     lib_path : string (default=None)
+    #         Path to add to working path
 
-        Returns
-        -------
+    #     Returns
+    #     -------
 
-        None
+    #     None
 
-        """
-        if lib_path:
-            sys.path.insert(1, lib_path)
-        else:
-            lib_path = os.path.join(os.environ.get("HOME"), "Library/CloudStorage/OneDrive-MoneseLtd/GW/libraries/snowflake")
-            sys.path.insert(1, lib_path)  
+    #     """
+    #     if lib_path:
+    #         sys.path.insert(1, lib_path)
+    #     else:
+    #         lib_path = os.path.join(os.environ.get("HOME"), "Library/CloudStorage/OneDrive-MoneseLtd/GW/libraries/snowflake")
+    #         sys.path.insert(1, lib_path)  
     
-    def get_credentials(env_path=None):
+    # def get_credentials(env_path=None):
 
-        """
+    #     """
         
-        Get credentials stored in dot file
+    #     Get credentials stored in dot file
 
-        Parameters
-        ----------
+    #     Parameters
+    #     ----------
         
-        env_path : string (deault=None)
-            Path to dot file with credentials
+    #     env_path : string (deault=None)
+    #         Path to dot file with credentials
 
-        Returns
-        -------
+    #     Returns
+    #     -------
 
-        Dic:
-            Stored credentials
+    #     Dic:
+    #         Stored credentials
 
-        """
+    #     """
         
-        if env_path:
-            env_path = env_path
-        else:
-            env_path = os.path.join(os.environ.get("HOME"), "Library/CloudStorage/OneDrive-MoneseLtd/GW/libraries/environ_vars/.env")
+    #     if env_path:
+    #         env_path = env_path
+    #     else:
+    #         env_path = os.path.join(os.environ.get("HOME"), "Library/CloudStorage/OneDrive-MoneseLtd/GW/libraries/environ_vars/.env")
             
-        return dotenv_values(env_path)
+    #     return dotenv_values(env_path)
     
     def get_logger(file=None):
 
