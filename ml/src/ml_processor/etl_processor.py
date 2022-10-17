@@ -1,11 +1,12 @@
 
 
 import pandas as pd 
-# import snowflake.connector
+import snowflake.connector
 
-from snowflake.sqlalchemy import URL
-from sqlalchemy import create_engine
+# from snowflake.sqlalchemy import URL
+# from sqlalchemy import create_engine
 from cryptography.fernet import Fernet
+
 
 from ml_processor.configuration import config
 import time
@@ -83,22 +84,37 @@ class snowflake_processor:
             connection to snowflake.
 
         """
-        
+##### connection using sqlalchemy
+        # try:
+        #     engine = create_engine(
+        #         URL(
+        #             account = self.credentials.get('account'),
+        #             user = self.credentials.get('username'),
+        #             password = self.credentials.get('password'),
+        #             database = self.credentials.get('database'),
+        #             warehouse = self.credentials.get('warehouse'),
+        #         )
+        #     )
+        #     self.logger.info(f'Connection to {self.credentials.get("account")} successful')
+        # except:
+        #     self.logger.error('Exception occured', exc_info=True)
+        # else:
+        #     return engine
+
+##### connection using snowflake.connector
         try:
-            engine = create_engine(
-                URL(
-                    account = self.credentials.get('account'),
-                    user = self.credentials.get('username'),
-                    password = self.credentials.get('password'),
-                    database = self.credentials.get('database'),
-                    warehouse = self.credentials.get('warehouse'),
+            engine = snowflake.connector.connect(
+                user = self.credentials.get('username'),
+                password = self.credentials.get('password'),
+                account = self.credentials.get('account'),
                 )
-            )
+
             self.logger.info(f'Connection to {self.credentials.get("account")} successful')
         except:
             self.logger.error('Exception occured', exc_info=True)
         else:
             return engine
+
         
     def pandas_from_sql(self, sql, conn=None, chunksize=None):
         
