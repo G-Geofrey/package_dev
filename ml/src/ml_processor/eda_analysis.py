@@ -170,7 +170,8 @@ class binary_eda_plot:
                  exclude_cols=[None], 
                  columns=6, 
                  target_palette={1:'red', 0:'deepskyblue'},
-                 bin_numeric=True
+                 bin_numeric=True,
+                 sort_by_index=False
                 ):
         
         self.data = data
@@ -178,6 +179,8 @@ class binary_eda_plot:
         self.target = target
         
         self.exclude_cols = exclude_cols
+
+        self.sort_by_index = sort_by_index
 
         if not plot_columns:
             
@@ -320,12 +323,14 @@ class binary_eda_plot:
         return data
     
 
-    def gen_plot_data(self, col, data=pd.DataFrame(), trend=True):
+    def gen_plot_data(self, col, data=pd.DataFrame()):
         
         if len(data) == 0:
             data=self.data
         
-        a = data[col].value_counts(sort=trend)
+        a = data[col].value_counts()
+        if self.sort_by_index:
+            a = a.sort_index()
         a.name = 'total'
         
         b = data[data[self.target]==1][col].value_counts()
@@ -426,7 +431,7 @@ class binary_eda_plot:
 
                 ax1 = plt.subplot(self.rows, self.columns, j)
                 
-                results = self.gen_plot_data(col=col, data=pd.DataFrame(), trend=True)
+                results = self.gen_plot_data(col=col, data=pd.DataFrame())
                 
                 self.plot_discrete(results=results, col=col, ax=ax1)
 
@@ -442,7 +447,7 @@ class binary_eda_plot:
                     
                     col_name = col + '_bin'
                     
-                    results = self.gen_plot_data(col=col_name, data=data, trend=False)
+                    results = self.gen_plot_data(col=col_name, data=data)
                     
                     self.plot_discrete(results=results, col=col_name, ax=ax2)
                 

@@ -14,7 +14,7 @@ setup(
     # name that will be imported, can be different from code file name
     name='ml_processor',
 
-    version='0.4.29',
+    version='0.4.44',
 
     description='Includes functions for performing econometrics tasks',
 
@@ -48,14 +48,23 @@ setup(
         "Operating System :: OS Independent"
         ],
 
-    #  install_requires=[
-    #     'pandas>=1.3.4',
-    #      'numpy>=1.20.3',
-    #      'matplotlib>=3.4.3',
-    #      'seaborn>=0.11.2',
-    #      'statsmodels>=0.12.2',
-    #      'stargazer'
-    # ]
+     install_requires=[
+        'pandas',
+        'numpy>=1.16',
+        'matplotlib',
+        'seaborn',
+        'sklearn',
+        'optbinning',
+        'snowflake-connector-python',
+        'snowflake.sqlalchemy',
+        'sqlalchemy',
+        'cryptography>=3.4.8',
+        'joblib',
+        'xgboost',
+        'statsmodels',
+        'hyperopt>=0.2.7',
+        'scipy'
+    ]
 
 
     )
