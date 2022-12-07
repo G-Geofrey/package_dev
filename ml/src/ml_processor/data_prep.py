@@ -81,7 +81,7 @@ class data_prep:
 
         """
 
-        start = time.process_time()
+        start = int(time.time())
         
         X = self.data[self.categories].values
         
@@ -89,7 +89,7 @@ class data_prep:
         
         self.encoder = self.encoder.fit(X)
 
-        end = time.process_time()
+        end = int(time.time())
 
         if verbose:
             self.log.info('OneHotEncoder created')
@@ -131,11 +131,11 @@ class data_prep:
         if not self.encoder:
             self.create_encoder()
 
-        start = time.process_time()
+        start = int(time.time())
 
         X_encoded = self.encoder.transform(X)
 
-        end = time.process_time()
+        end = int(time.time())
 
         df_encoded = pd.DataFrame(X_encoded, columns=self.encoder.get_feature_names(self.categories))
 
@@ -195,7 +195,7 @@ class data_prep:
         
         """ 
 
-        start = time.process_time()
+        start = int(time.time())
 
         X = self.data[self.features]
         
@@ -211,7 +211,7 @@ class data_prep:
         
         binning_process.fit(X, y)
 
-        end = time.process_time()
+        end = int(time.time())
 
         if verbose:
             self.log.info(f'Binning processor created')
@@ -371,7 +371,7 @@ class data_prep:
         if not self.binning_process:
             self.woe_bins()
 
-        start = time.process_time()
+        start = int(time.time())
         
         data_transf = data[self.features]
 
@@ -381,7 +381,7 @@ class data_prep:
         
         df_transformed['target'] = data[self.target].values  
 
-        end = time.process_time()
+        end = int(time.time())
 
         if verbose:
             self.log.info('Data transformation completed')

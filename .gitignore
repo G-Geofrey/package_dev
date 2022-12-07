@@ -6,6 +6,8 @@
 **/build/
 *.egg-info
 *.DS_Store
+**/Setupfiles/
+**/venv
 
 ### Python ###
 # Byte-compiled / optimized / DLL files

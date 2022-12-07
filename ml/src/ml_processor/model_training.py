@@ -214,7 +214,7 @@ class xgbmodel:
         
         self.split_tunning_data()
         
-        start = time.process_time()
+        start = int(time.time())
   
         space = {
             'learning_rate': hp.choice('learning_rate', [0.0001,0.001, 0.01, 0.1, 1]),
@@ -252,7 +252,7 @@ class xgbmodel:
 
         param_search = fmin(fn = objective_func, space=space, algo=tpe.suggest, max_evals=48, trials=trials)
         
-        end = time.process_time()
+        end = int(time.time())
         
         self.log.info('Hyperparameter tuning completed')
         
@@ -292,7 +292,7 @@ class xgbmodel:
         
         self.log.info('Model fitting initialized...')
         
-        start = time.process_time()
+        start = int(time.time())
 
         xgb_model = xgb.XGBClassifier(seed=0, **best_params)
         
@@ -300,7 +300,7 @@ class xgbmodel:
 
         xgb_model.fit(self.X_train[self.features], self.y_train)
         
-        end = time.process_time()
+        end = int(time.time())
         
         self.log.info('Model fitting completed')
         
@@ -726,7 +726,7 @@ class logitmodel:
         if len(data) == 0:
             data = self.data
 
-        start = time.process_time()
+        start = int(time.time())
         
         self.uniq_val_count = data[self.features].nunique()
         
@@ -734,7 +734,7 @@ class logitmodel:
         
         data = data.drop(drop_features, axis=1)
 
-        end = time.process_time()
+        end = int(time.time())
         
         self.features = list(set(self.features) - set(drop_features))
         
@@ -766,7 +766,7 @@ class logitmodel:
         if len(iv_df) == 0:
             iv_df = self.iv_df
 
-        start = time.process_time()
+        start = int(time.time())
 
         self.corr_res = abs(self.data[self.features].corr())
         
@@ -821,7 +821,7 @@ class logitmodel:
         
         self.features  = woe_features 
 
-        end = time.process_time()
+        end = int(time.time())
 
         self.log.info('Dropping correlated variables completed.')
         
@@ -914,7 +914,7 @@ class logitmodel:
         if len(self.full_train_data)==0:
             self.split_data()
 
-        start = time.process_time()
+        start = int(time.time())
             
 
         best_features = []
@@ -948,7 +948,7 @@ class logitmodel:
 
                 break
 
-        end = time.process_time()
+        end = int(time.time())
 
         self.log.info('Feature selection completed')
 
@@ -1000,7 +1000,7 @@ class logitmodel:
 
         self.log.info(f'Features saved: {path}')
 
-        start = time.process_time()
+        start = int(time.time())
         
         formular = self.target + ' ~ ' + (' + '.join(self.used_features))
 
@@ -1008,7 +1008,7 @@ class logitmodel:
         
         self.model = smf.logit(formular, data = self.full_train_data).fit(disp=0, method='bfgs')
 
-        end = time.process_time()
+        end = int(time.time())
 
         self.log.info(f'Model fitting completed')
 

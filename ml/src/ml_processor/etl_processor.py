@@ -149,7 +149,7 @@ class snowflake_processor:
         if not conn:
             conn = self.connect()
             
-        start = time.process_time()
+        start = int(time.time())
             
         if not chunksize:
             
@@ -166,7 +166,7 @@ class snowflake_processor:
                 
                 rows += chunk.shape[0]
                 
-        end = time.process_time()
+        end = int(time.time())
         
         self.logger.info(f'Number of rows extracted: {df.shape[0]}')
         
