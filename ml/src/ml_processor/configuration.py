@@ -61,7 +61,7 @@ class config:
             
     #     return dotenv_values(env_path)
     
-    def get_logger(file=None):
+    def get_logger(file=None, folder="model_artefacts"):
 
         """
 
@@ -98,11 +98,11 @@ class config:
 
         if file:
 
-            if not os.path.isdir('model_artefacts'):
+            if not os.path.isdir(f'{ folder}'):
                 
-                os.mkdir('model_artefacts')
+                os.mkdir(f'{folder}')
 
-            path = os.path.join('model_artefacts', file)
+            path = os.path.join(f'{folder}', file)
 
             filehandler = logging.FileHandler(path)
 
