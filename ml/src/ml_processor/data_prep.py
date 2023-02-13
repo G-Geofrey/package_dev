@@ -256,7 +256,7 @@ class data_prep:
         
         return woe_table
     
-    def get_var_bins(self, var):
+    def get_var_bins(self, var, ax, plot_type="WoE"):
 
         """
 
@@ -267,12 +267,19 @@ class data_prep:
         
         var : string 
             Name of variable for which to show binning tables
+
+        ax : matplotlib.axes
+            Axes to plot on.
+
+        plot_type : string (default="WoE", options=[""WoE", "event_rate"])
+            Whether to plot WoE or event rate per bin
             
         Returns
         -------   
         plot : matplotlib plot
         
         """
+
         if not self.binning_process:
             self.woe_bins()  
             
@@ -280,67 +287,63 @@ class data_prep:
 
         table = self.optb.binning_table.build()
         
-        table = table[~table['Bin'].isin(['Special','Missing'])]
-        
         table.drop(['Totals'], inplace=True)
-        
+
         table['WoE'] = pd.to_numeric(table['WoE'])
-        
+
+        table = table.query("abs(WoE)>0")
+
         table['Bin'] = table['Bin'].astype('string')
         
-        fig, ax = plt.subplots(1,2,figsize=(12,4))
-        
-        for i in range(2):
-        
-            if i==0:
-                
-                sns.barplot(x='Bin', y='WoE', data=table, ax=ax[i], color='deepskyblue')
-                
-                ax[i].set_title('WoE per bins created \nfor {}'.format(var), fontsize = 12, fontweight='bold', fontname='Georgia')
-                
-                ax[i].tick_params(axis='both', which='major', labelsize=10)
-                
-                ax[i].tick_params(axis='x', which='major', rotation=90)
-                
-                ax[i].set_xlabel('Bin', fontsize=10)
-                
-                ax[i].set_ylabel('WoE', fontsize=10)
-                
-                plt.xlabel('Bin', fontsize=10)
-            
-            else:
-                
-                ax[i].bar(table['Bin'], table['Event'], color='#ff2e63', label='Event')
-                
-                ax[i].bar(table['Bin'], table['Non-event'], bottom=table['Event'], color='#48d1cc', label='Non-event')
-                
-                ax[i].tick_params(axis='both', which='both', labelsize=10)
-                
-                ax[i].tick_params(axis='x', which='major', rotation=90)
-                
-                ax[i].legend(frameon=False, fontsize=8)
-                
-                ax[i].set_ylabel('Count', fontsize=10)
-                
-                table['Bin'] = table['Bin'].astype('category')
-                
-                ax2 = ax[i].twinx()
-                
-                ax2.plot(table['Bin'], table['Event rate'], color='k', marker='o', label='event rate')
-                
-                ax2.set_yticklabels(['{:.0%}'.format(x) for x in ax2.get_yticks()])
-                
-                ax2.set_ylabel('Event rate', fontsize=10)
+        if plot_type == "WoE":
 
-                ax2.grid(False)
-                
-                plt.title('Event rate per bin \nfor {}'.format(var), fontname='Georgia', fontsize=12, fontweight='bold')
-                
-                plt.xlabel('Bin', fontsize=10)
+            sns.barplot(x='Bin', y='WoE', data=table, ax=ax, color='deepskyblue')
+
+            ax.set_title('WoE per bins created \nfor {}'.format(var), fontsize = 12, fontweight='bold', fontname='Georgia')
+
+            ax.tick_params(axis='both', which='major', labelsize=10)
+
+            ax.tick_params(axis='x', which='major', rotation=90)
+
+            ax.set_xlabel('Bin', fontsize=10)
+
+            ax.set_ylabel('WoE', fontsize=10)
+
+            ax.set_xlabel('Bin', fontsize=10)
+
+            ax.spines["top"].set_visible(False)
+            ax.spines["right"].set_visible(False)
+            ax.spines["left"].set_visible(False)
         
-        plt.subplots_adjust(wspace=0.4)
-        
-        plt.show()
+        else:
+            
+            ax.bar(table['Bin'], table['Event'], color='#ff2e63', label='Event')
+            
+            ax.bar(table['Bin'], table['Non-event'], bottom=table['Event'], color='#48d1cc', label='Non-event')
+            
+            ax.tick_params(axis='both', which='both', labelsize=10)
+            
+            ax.tick_params(axis='x', which='major', rotation=90)
+            
+            ax.legend(frameon=False, fontsize=8)
+            
+            ax.set_ylabel('Count', fontsize=10)
+            
+            table['Bin'] = table['Bin'].astype('category')
+            
+            ax2 = ax.twinx()
+            
+            ax2.plot(table['Bin'], table['Event rate'], color='k', marker='o', label='event rate')
+            
+            ax2.set_yticklabels(['{:.0%}'.format(x) for x in ax2.get_yticks()])
+            
+            ax2.set_ylabel('Event rate', fontsize=10)
+
+            ax2.grid(False)
+            
+            ax.set_title('Event rate per bin \nfor {}'.format(var), fontname='Georgia', fontsize=12, fontweight='bold')
+            
+            ax.set_xlabel('Bin', fontsize=10)
         
     def woe_transform(self, data=pd.DataFrame(), verbose=False):
 
