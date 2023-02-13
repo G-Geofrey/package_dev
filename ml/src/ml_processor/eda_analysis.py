@@ -192,11 +192,13 @@ class binary_eda_plot:
                 if col==self.target:
                     self.plot_columns['target']= col
 
-                elif len(self.data[col].unique()) < 50:
-                    self.plot_columns['discrete'].append(col)
+                elif col not in self.exclude_cols:
 
-                elif self.data[col].dtype in ('float', 'int') and col not in self.exclude_cols:
-                    self.plot_columns['numeric'].append(col)
+                    if len(self.data[col].unique()) < 50 :
+                        self.plot_columns['discrete'].append(col)
+
+                    elif self.data[col].dtype in ('float', 'int'):
+                        self.plot_columns['numeric'].append(col)
         else:
             self.plot_columns = plot_columns
         

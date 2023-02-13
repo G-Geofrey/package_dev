@@ -14,7 +14,7 @@ setup(
     # name that will be imported, can be different from code file name
     name='ml_processor',
 
-    version='0.5.0',
+    version='0.5.4',
 
     description='Includes functions for performing econometrics tasks',
 
@@ -53,7 +53,7 @@ setup(
         'numpy>=1.16',
         'matplotlib',
         'seaborn',
-        'sklearn',
+        #'sklearn',
         'optbinning',
         'snowflake-connector-python',
         'snowflake.sqlalchemy',
