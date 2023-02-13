@@ -40,7 +40,7 @@ class model_training:
     
     """
 
-    Performing machine learning tasks including hyperparameter tuning and xgb model fitting.
+    Performing most machine learning tasks including hyperparameter tuning, model fitting and diagnostic checks.
     
     Parameters
     ----------
