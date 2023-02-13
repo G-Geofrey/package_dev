@@ -13,7 +13,7 @@ sns.set_style('whitegrid')
 from ml_processor.configuration import config
 from ml_processor.outliers import remove_outliers
 
-def eda_data_quality(data):
+def eda_data_quality(data, target=None):
     
     """
 
@@ -102,7 +102,8 @@ def eda_data_quality(data):
         .assign(rule_6 = list(map(check_dtype, df_results['type'], df_results['unique'])))
     )
     
-    df_results.loc['target', ['rule_3', 'rule_4', 'rule_6']] = 0
+    if target:
+        df_results.loc[target, ['rule_3', 'rule_4', 'rule_6']] = 0
 
     df_results = (
         df_results
