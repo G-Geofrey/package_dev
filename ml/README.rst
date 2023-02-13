@@ -49,6 +49,8 @@ ml-processor requires
 * statsmodels
 * hyperopt
 * scipy
+* shap
+* lightgbm
 
 Getting started
 ===============

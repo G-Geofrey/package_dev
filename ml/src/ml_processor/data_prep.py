@@ -16,6 +16,7 @@ sns.set_style('whitegrid')
 
 from ml_processor.configuration import config
 
+# <<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 class data_prep:
 
     """
@@ -85,7 +86,7 @@ class data_prep:
         
         X = self.data[self.categories].values
         
-        self.encoder = OneHotEncoder(handle_unknown='ignore', drop=drop, sparse=False)
+        self.encoder = OneHotEncoder(drop=drop, sparse=False)
         
         self.encoder = self.encoder.fit(X)
 
@@ -328,6 +329,15 @@ class data_prep:
             ax.legend(frameon=False, fontsize=8)
             
             ax.set_ylabel('Count', fontsize=10)
+
+            ax.set_title('Event rate per bin \nfor {}'.format(var), fontname='Georgia', fontsize=12, fontweight='bold')
+            
+            ax.set_xlabel('Bin', fontsize=10)
+
+            ax.spines["top"].set_visible(False)
+            ax.spines["right"].set_visible(False)
+            ax.spines["left"].set_visible(False)
+
             
             table['Bin'] = table['Bin'].astype('category')
             
@@ -340,10 +350,12 @@ class data_prep:
             ax2.set_ylabel('Event rate', fontsize=10)
 
             ax2.grid(False)
-            
-            ax.set_title('Event rate per bin \nfor {}'.format(var), fontname='Georgia', fontsize=12, fontweight='bold')
-            
-            ax.set_xlabel('Bin', fontsize=10)
+
+            ax2.tick_params(axis='y', which='both', right=False, left=False)
+
+            ax2.spines["top"].set_visible(False)
+            ax2.spines["right"].set_visible(False)
+            ax2.spines["left"].set_visible(False)
         
     def woe_transform(self, data=pd.DataFrame(), verbose=False):
 

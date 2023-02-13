@@ -14,7 +14,7 @@ setup(
     # name that will be imported, can be different from code file name
     name='ml_processor',
 
-    version='0.4.44',
+    version='0.5.0',
 
     description='Includes functions for performing econometrics tasks',
 
@@ -63,7 +63,9 @@ setup(
         'xgboost',
         'statsmodels',
         'hyperopt>=0.2.7',
-        'scipy'
+        'scipy',
+        'shap',
+        'lightgbm'
     ]
 
 
