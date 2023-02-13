@@ -79,7 +79,8 @@ class model_training:
 
     
     def __init__(self, df, features, target="target", params_prop=0.25, test_size=0.33, hyperparams=None, 
-           method="hyperopt", classifier="xgboost", eval_metric="recall", search_space=None):
+           method="hyperopt", classifier="xgboost", eval_metric="recall", search_space=None
+           ):
         
         self.data = df
         
@@ -213,16 +214,46 @@ class model_training:
         return self.model
 
 
-    def model_evaluation(self,
-            model = None,
-            features = None,
-            target = "target",
-            train_set = pd.DataFrame(),
-            validation_set = pd.DataFrame(),
-            test_set = pd.DataFrame(),
-            main_set = "test",
-            loc_path = None
+    def model_evaluation(self, model = None, features = None, target = "target", train_set = pd.DataFrame(), 
+        validation_set = pd.DataFrame(), test_set = pd.DataFrame(), main_set = "test", loc_path = None
         ):
+
+        """
+
+        Generate model diagnostics plots
+
+        Parameters
+        ----------
+
+        model : object
+            Model to evaluate
+
+        features : list or array-like (default=None)
+            Features used for fitting the model
+
+        target : string (default="target")
+            COlumn with labels
+
+        train_set : pandas.Dataframe (default=pandas.DataFrame())
+            Training set to evaluate the model on. If not set, the model is evlauted on the remaining sets (validation_set, test_set). 
+            Atleast one of the sets (training_set, validation_set, test_set) has to be provided. 
+
+        validation_set : pandas.Dataframe (default=pandas.DataFrame())
+            Validation set to evaluate the model on. If not set, the model is evlauted on the remaining sets (train_set, test_set). 
+            Atleast one of the sets (training_set, validation_set, test_set) has to be provided. 
+
+        test_set : pandas.Dataframe (default=pandas.DataFrame())
+            Testing set to evaluate the model on. If not set, the model is evlauted on the remaining sets (train_set, validation_set). 
+            Atleast one of the sets (training_set, validation_set, test_set) has to be provided.
+
+        main_set : string (default="test", options=["test", "validation", "train"])
+            Dataset to consider as the actual testing set for the model. Some model performance metrices are ony evaluated on the main set.
+            The main set must be part of the data sets (training_set, validation_set, test_set) provided.
+
+        loc_path : string (default=None):
+            Directory (folder) to save the plots.
+
+        """
 
         if not model:
             model = self.model 
@@ -253,7 +284,29 @@ class model_training:
         return model_perf.make_plots()
 
 
-    def shap_summary_plot(self, model=None, save_plot=True, save_path=None, plot_size=(15,20) ):
+    def shap_summary_plot(self, model=None, eval_set=pd.DataFrame(), save_plot=True, save_path=None, plot_size=(15,20) ):
+
+        """
+
+        Generate shap summary plot for fitted model
+
+        model : object 
+            Fitted model whose shap summary plot is to be generated
+
+        eval_set : pandas.DataFrame (default=pandas.DataFrame())
+            Data set to use for model evaluation
+
+        save_plot : boolean (default=True)  
+            Whether to save plot or not
+
+        save_path : string (default = None)
+            Path to save plot to.
+
+        plot_size : "auto", float, (float, float) (default), or None.
+            What size to make the plot.
+
+        """
+
         if not model:
             model = self.model
 
@@ -485,16 +538,47 @@ class model_training:
 # <<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 class plot_model_perf:
 
-    def __init__(self, 
-        model, 
-        features,
-        target="target",
-        train_set=pd.DataFrame(), 
-        validation_set=pd.DataFrame(),
-        test_set=pd.DataFrame(),
-        main_set="test",
-        loc_path=None
+    """
+
+    Generate model diagnostics plots
+
+    Parameters
+    ----------
+
+    model : object
+        Model to evaluate
+
+    features : list or array-like (default=None)
+        Features used for fitting the model
+
+    target : string (default="target")
+        COlumn with labels
+
+    train_set : pandas.Dataframe (default=pandas.DataFrame())
+        Training set to evaluate the model on. If not set, the model is evlauted on the remaining sets (validation_set, test_set). 
+        Atleast one of the sets (training_set, validation_set, test_set) has to be provided. 
+
+    validation_set : pandas.Dataframe (default=pandas.DataFrame())
+        Validation set to evaluate the model on. If not set, the model is evlauted on the remaining sets (train_set, test_set). 
+        Atleast one of the sets (training_set, validation_set, test_set) has to be provided. 
+
+    test_set : pandas.Dataframe (default=pandas.DataFrame())
+        Testing set to evaluate the model on. If not set, the model is evlauted on the remaining sets (train_set, validation_set). 
+        Atleast one of the sets (training_set, validation_set, test_set) has to be provided.
+
+    main_set : string (default="test", options=["test", "validation", "train"])
+        Dataset to consider as the actual testing set for the model. Some model performance metrices are ony evaluated on the main set.
+        The main set must be part of the data sets (training_set, validation_set, test_set) provided.
+
+    loc_path : string (default=None):
+        Directory (folder) to save the plots.
+
+    """
+
+    def __init__(self, model, features, target="target", train_set=pd.DataFrame(), 
+        validation_set=pd.DataFrame(), test_set=pd.DataFrame(), main_set="test", loc_path=None
         ):
+
 
         self.model = model 
         self.features = features
@@ -540,6 +624,23 @@ class plot_model_perf:
 
     def get_metric_df(self):
 
+        """
+
+        Generate dataframe with model performance metrics
+
+        Parameters
+        ----------
+        
+        None
+        
+        Returns
+        -------
+        
+        df_metrices : pandas.DataFrame
+            Metrics data
+        
+        """
+
         df_metrices = pd.DataFrame()
 
         for i, eval_set in enumerate(self.eval_sets_dic):
@@ -554,6 +655,23 @@ class plot_model_perf:
         return df_metrices
 
     def make_plots(self, display_metrics=True):
+
+        """
+
+        Generate model performance plots
+
+        Parameters
+        ----------
+        
+        display_metrics : boolean (default=True)
+            Whether to display metrics table or not.
+        
+        Returns
+        -------
+        
+        matplotlib plot 
+        
+        """
 
         if display_metrics:
             display(self.get_metric_df())
@@ -658,7 +776,25 @@ def split_data(data, target="target", test_size=0.33):
 
 
 def model_interp_shap(model, eval_set, save_path=None, plot_size=(10,10)):
-    
+
+    """
+
+    Generate shap summary plot for fitted model
+
+    model : object 
+        Fitted model whose shap summary plot is to be generated
+
+    eval_set : pandas.DataFrame (default=pandas.DataFrame())
+        Data set to use for model evaluation
+
+    save_path : string (default = None)
+        Path to save plot to.
+
+    plot_size : "auto", float, (float, float) (default), or None.
+        What size to make the plot.
+
+    """
+
     features = eval_set.columns
     num_cols = len(features)
     
@@ -712,8 +848,8 @@ def hyper_parameter_tunning(features, labels, method="hyperopt", classifier="xgb
     labels : pandas.Dataframe 
         Dataset with features
 
-    method : string (default = "hyperopt", options = ["hyperopt", "random_search", "grid_search"])
-        Hyperparameter optimization method
+    # method : string (default = "hyperopt", options = ["hyperopt", "random_search", "grid_search"])
+    #     Hyperparameter optimization method --- in future versions
 
     classifier : string (default = "xgboost", options = ["xgboost", "random_forest", "lightgbm"])
         Classification algorithm to optimize
@@ -775,7 +911,37 @@ def hyper_parameter_tunning(features, labels, method="hyperopt", classifier="xgb
 
 
 
-def get_predictions(model, X_test, y_test):
+def get_predictions(model, X_test, y_test, threshold=0.5):
+
+    """
+
+    Generate probability and class predictions from fitted model
+
+    Parameters
+    ----------
+
+    model : object
+        Model to use for making predictons
+
+    X_test : pandas.DataFrame
+        Data set to make predictions on; should include only features used in fitting the model.
+
+    y_test : list or array-like
+        Test labels
+
+    threshold : float (default=0.5)
+        Probability cut-off value for class allocation 
+        e.g threshold=0.5 means all samples where the predicted probability is atleast 0.5 are allocated the positive label.
+
+    Returns
+    -------
+
+    predictions : dic
+        Predicted probabilities and classes 
+            • pred_prob - predicted probabilities
+            • pred_class - predicted classes
+
+    """
 
     if isinstance(model, xgb.core.Booster):
         
@@ -791,7 +957,7 @@ def get_predictions(model, X_test, y_test):
         
         pred_prob = model.predict_proba(X_test)[:,1]
 
-    pred_class = pred_prob>0.5
+    pred_class = pred_prob>threshold
     
     pred_class = pred_class.astype(int)
 
@@ -802,6 +968,39 @@ def get_predictions(model, X_test, y_test):
 
 
 def get_metrics(model, X_test, y_test):
+
+    """
+
+    Generate model performance metrics
+
+    Parameters
+    ----------
+
+    model : object
+        Model for which to obtain performance metrics
+
+    X_test : pandas.DataFrame
+        Data set to make predictions on; should include only features used in fitting the model.
+
+    y_test : list or array-like
+        Test labels
+
+
+    Returns
+    -------
+
+    _metrics : dic
+        Model performance metrices
+            • area_roc - Area under the ROC Curve.
+            • accuracy - accuracy
+            • precision - precision
+            • recall - Recall/sensitivity
+            • fscore - F1-score
+            • false_positive_rate - False positive rate
+            • confusion_matrix - confusion matrix 
+
+
+    """
 
     predictions = get_predictions(model, X_test, y_test)
     pred_prob = predictions.get("pred_prob")
@@ -833,6 +1032,36 @@ def get_metrics(model, X_test, y_test):
 
 def get_prediction_arrays(model, X_test, y_test):
 
+    """
+
+    Genertae true positive-true negative, precision-recall pairs for different probability thresholds.
+
+
+    Parameters
+    ----------
+
+    model : object
+        Model for which to obtain performance metrics
+
+    X_test : pandas.DataFrame
+        Data set to make predictions on; should include only features used in fitting the model.
+
+    y_test : list or array-like
+        Test labels
+
+
+    Returns
+    -------
+
+    pred_array : dic
+        True positive, true negative, precision, recall arrays
+            • trP - True positive array
+            • trN - True negative  array
+            • precision_curve - precision  array
+            • recall_curve - recall  array
+
+    """
+
     predictions = get_predictions(model, X_test, y_test)
     pred_prob = predictions.get("pred_prob")
     pred_class = predictions.get("pred_class")
@@ -853,6 +1082,30 @@ def get_prediction_arrays(model, X_test, y_test):
 
 
 def get_variableImportance(model, features, returnType="dic"):
+
+    """
+    Generate variable importance for each variable in fitting a model
+
+
+    Parameters
+    ----------
+
+    model : object
+        Model for which to obtain variable importance
+
+    features : list or array-like
+        Features used fro fitting model; should be in the same order as in the model fitting data set.
+
+    returnType : string (defaul="dic", options=["dic", "df"])
+        Returns dictionary if set to "dic" and pandas.DataFrame if set to "df"
+
+    Returns
+    -------
+
+    featureImportance/df_featureImp : dic/pandas.DataFrame
+        Variable importance values for each variable
+
+    """
 
     if isinstance(model, xgb.core.Booster):
         feature_scores = model.get_score(importance_type='gain')
