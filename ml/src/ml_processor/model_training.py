@@ -1262,7 +1262,7 @@ def _plot_prediction(y_test, pred_class, pred_prob, ax, dataset="test"):
     
     df_pred = pd.DataFrame({'actual_class': y_test, 'pred_class': pred_class, 'pred_prob': pred_prob})
     
-    sns.kdeplot(data=df_pred, x='pred_prob', hue='pred_class', fill=True, legend=False, palette=palette, ax=ax)
+    sns.kdeplot(data=df_pred, x='pred_prob', hue='actual_class', fill=True, legend=False, palette=palette, ax=ax)
     
     ax.set_facecolor('#274472')
     
