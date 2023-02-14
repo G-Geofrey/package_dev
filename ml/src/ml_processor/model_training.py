@@ -1183,7 +1183,7 @@ def search_space_generator(classifier="xgboost"):
             'learning_rate': hp.choice('learning_rate', [0.0001, 0.001, 0.01, 0.1, 1.0]),
             'subsample': hp.choice('subsample', np.arange(0.1, 1.1, 0.1)),
             'colsample_bytree': hp.choice('colsample_bytree', np.arange(0.1, 1.1, 0.1)),
-            'gamma': hp.choice('gamma', np.arange(0.0, 1.0, 0.25)),
+            'gamma': hp.choice('gamma', np.arange(0.0, 5.0, 0.5)),
             'reg_lambda': hp.choice('reg_lambda', [1e-5, 1e-2, 0.1, 1, 10, 100]),
             'objective': 'binary:logistic',
             'booster': 'gbtree',
@@ -1193,7 +1193,7 @@ def search_space_generator(classifier="xgboost"):
             'verbosity': 1,
             'n_jobs': -1,
         },
-        
+
 
         "random_forest" : {
             'n_estimators': hp.choice('n_estimators', range(100,1500,100)),
@@ -1204,7 +1204,7 @@ def search_space_generator(classifier="xgboost"):
             'random_state': 801,
             'verbose' : 0,
             'n_jobs' : -1,
-        }
+        },
 
 
         "lightgbm" : {
