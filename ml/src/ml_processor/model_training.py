@@ -357,7 +357,7 @@ class model_training:
         
         """
 
-        self._split_tunning_data()
+        self._reduce_data()
         
 
         self.hyperparams = hyper_parameter_tunning(
@@ -539,45 +539,26 @@ class model_training:
             Dataset for hyperparameter tuning
         
         """
-        
-        tunning_data_size = int(self.data.shape[0] * self.params_prop)
-        
+
+
+        if self.X_train.empty:
+            self._split_data()
+
+
+        train_set = pd.concat([self.X_train, self.y_train], axis=1)
+
+        tunning_data_size = int(self.X_train.shape[0] * self.params_prop)
+
+        hyp_tune_data = self.data.sample(tunning_data_size)
+
         self.log.info('Hyper parameter tuning data set created')
-    
+
         self.log.info(f'Hyper parameter tuning data set:{tunning_data_size} rows')
-        
-        return self.data.sample(tunning_data_size)
 
+        self.X_train_param = hyp_tune_data[self.features]
 
-    def _split_tunning_data(self):
+        self.y_train_param =  hyp_tune_data[self.target]
         
-        """
-
-        Split data into training and test sets
-
-        Parameters
-        ----------
-        
-        None
-        
-        Returns
-        -------
-        
-        None
-        
-        """
-        
-        tunning_data = self._reduce_data()
-
-        self.X_train_param, self.X_test_param, self.y_train_param, self.y_test_param = split_data(data=tunning_data, target=self.target, test_size=self.test_size)
-        
-        self.log.info('Splitting hyperparameter tuning data into training and testing sets completed')
-        
-        self.log.info(f'Hyperparameter tuning training data set:{self.X_train_param.shape[0]} rows')
-        
-        self.log.info(f'Hyperparameter tuning testing data set:{self.X_test_param.shape[0]} rows')
-
-
 
 # <<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 class plot_model_perf:
