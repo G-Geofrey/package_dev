@@ -435,7 +435,7 @@ class data_prep:
             self.log.info(f'Number of features selected using the selection criteria defined : {len(features)} out of {len(self.features)}')
         
         return features
-    
+
     def balance_data(self, target=None, data=pd.DataFrame()):
         
         """
@@ -444,6 +444,9 @@ class data_prep:
         
         Parameters
         ----------
+
+        target : string (default=None)
+            Column with attribute size to use for balancing
         
         data : pandas.DataFrame (default=empty dataframe)
             Dataset to balance.
@@ -456,17 +459,47 @@ class data_prep:
             
         """
 
-        if len(data) == 0:
+        if data.empty:
             data = self.data
 
         if not target:
             target = self.target
-        
-        minority_size = data[target].value_counts()[1]
 
-        self.balanced_df = data.groupby(target).sample(minority_size)
+        return balance_data(target=target, data=data)
+
+    
+def balance_data(target=None, data=pd.DataFrame()):
+    
+    """
+
+    Balance data basing on each label size of the label variable.
+    
+    Parameters
+    ----------
+
+    target : string (default=None)
+        Column with attribute size to use for balancing
+    
+    data : pandas.DataFrame (default=empty dataframe)
+        Dataset to balance.
         
-        self.balanced_df = self.balanced_df.sample(frac=1)
+    Returns
+    -------
+
+    pandas.DataFrame
+        Transformed data.
         
-        return self.balanced_df
+    """
+
+    if len(data) == 0:
+        data = self.data
+
+    
+    minority_size = data[target].value_counts()[1]
+
+    balanced_df = data.groupby(target).sample(minority_size)
+    
+    balanced_df = balanced_df.sample(frac=1)
+    
+    return balanced_df
         
