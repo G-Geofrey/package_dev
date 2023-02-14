@@ -689,7 +689,7 @@ class plot_model_perf:
             width = 12
             rows = 2
         
-        fig = plt.figure(figsize=(25, width), constrained_layout=True)
+        fig = plt.figure(figsize=(40, width), constrained_layout=True)
 
         spec2 = gridspec.GridSpec(ncols=5, nrows=rows, figure=fig)
         
