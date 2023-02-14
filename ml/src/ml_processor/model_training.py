@@ -30,6 +30,7 @@ from scipy.interpolate import make_interp_spline
 
 from ml_processor.configuration import config
 from ml_processor.jsonSerializer import NpEncoder
+from ml_processor.data_prep import balance_data
 
 sns.set_style('whitegrid')
 warnings.filterwarnings('ignore')
@@ -74,12 +75,19 @@ class model_training:
 
     search_space : dic (default = None)
         Range of values for the different parameters to tune.
+
+    balance_data : string (default=None, options=[None, "train", "both"])
+        Whether to balance data according to the distribution of the labels or not.
+            • None - Doesn't balance data.
+            • train_only - Balances only training data
+            • both - Balances both training and testing data
     
     """
 
     
     def __init__(self, df, features, target="target", params_prop=0.25, test_size=0.33, hyperparams=None, 
-           method="hyperopt", classifier="xgboost", eval_metric="recall", search_space=None
+           method="hyperopt", classifier="xgboost", eval_metric="recall", search_space=None,
+           balance_data = None
            ):
         
         self.data = df
@@ -97,6 +105,8 @@ class model_training:
         self.eval_metric = eval_metric
         
         self.search_space = search_space
+
+        self.balance_data = balance_data
         
         self.cwd = os.getcwd()
         
@@ -477,7 +487,32 @@ class model_training:
         
         """
 
-        self.X_train, self.X_test, self.y_train, self.y_test = split_data(data=self.data, target=self.target, test_size=self.test_size)
+        if not self.balance_data:
+
+            self.X_train, self.X_test, self.y_train, self.y_test = split_data(data=self.data, target=self.target, test_size=self.test_size)
+        
+        elif self.balance_data == "both":
+            
+            data_balanced = balance_data(target=self.target, data=self.data)
+
+            self.log.info('Data balanced acording to minority size of the labels')
+            
+            self.X_train, self.X_test, self.y_train, self.y_test = split_data(data=data_balanced, target=self.target, test_size=self.test_size)
+        
+        elif self.balance_data == "train_only":
+
+            self.X_train, self.X_test, self.y_train, self.y_test = split_data(data=self.data, target=self.target, test_size=self.test_size)
+
+            train_set = pd.concat([self.X_train, self.y_train], axis=1)
+
+            train_set_balanced = balance_data(target=self.target, data=train_set)
+
+            self.log.info('Training set balanced acording to minority size of the labels')
+
+            self.X_train = train_set_balanced[self.features]
+
+            self.y_train =  train_set_balanced[self.target]
+
         
         self.log.info('Splitting data into training and testing sets completed')
         

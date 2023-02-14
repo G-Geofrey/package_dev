@@ -14,7 +14,7 @@ setup(
     # name that will be imported, can be different from code file name
     name='ml_processor',
 
-    version='0.5.5',
+    version='0.5.7',
 
     description='Includes functions for performing econometrics tasks',
 

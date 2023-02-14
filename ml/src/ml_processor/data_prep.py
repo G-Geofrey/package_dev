@@ -436,7 +436,7 @@ class data_prep:
         
         return features
 
-    def balance_data(self, target=None, data=pd.DataFrame()):
+    def _balance_data(self, target=None, data=pd.DataFrame()):
         
         """
 
