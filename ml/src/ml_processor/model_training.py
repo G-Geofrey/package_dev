@@ -1153,12 +1153,11 @@ def search_space_generator(classifier="xgboost"):
     space = {
         "xgboost" : {
             'n_estimators': hp.choice('n_estimators', range(100,1500,100)),
-            'learning_rate': hp.choice('learning_rate', np.arange(0.01, 0.5, 0.01)),
             'max_depth': hp.choice('max_depth', range(2, 15, 1)),
+            'learning_rate': hp.choice('learning_rate', [0.0001, 0.001, 0.01, 0.1, 1.0]),
             'subsample': hp.choice('subsample', np.arange(0.1, 1.1, 0.1)),
             'colsample_bytree': hp.choice('colsample_bytree', np.arange(0.1, 1.1, 0.1)),
-            'gamma': hp.choice('gamma', np.arange(0.1, 0.6, 0.1)),
-            'reg_alpha': hp.choice('reg_alpha', [1e-5, 1e-2, 0.1, 1, 10, 100]),
+            'gamma': hp.choice('gamma', np.arange(0.0, 1.0, 0.25)),
             'reg_lambda': hp.choice('reg_lambda', [1e-5, 1e-2, 0.1, 1, 10, 100]),
             'objective': 'binary:logistic',
             'booster': 'gbtree',
