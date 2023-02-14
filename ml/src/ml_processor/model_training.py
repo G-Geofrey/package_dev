@@ -558,7 +558,7 @@ class model_training:
         self.X_train_param = hyp_tune_data[self.features]
 
         self.y_train_param =  hyp_tune_data[self.target]
-        
+
 
 # <<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 class plot_model_perf:
@@ -1209,13 +1209,28 @@ def search_space_generator(classifier="xgboost"):
         },
 
         "lightgbm" : {
-            'num_leaves' : hp.choice('num_leaves', range(20, 220, 20)),
+            'num_leaves' : hp.choice('num_leaves', range(20, 200, 10)),
             'max_depth': hp.choice('max_depth', range(2, 15, 1)),
-            'learning_rate' : hp.choice('learning_rate', np.arange(0.01, 0.5, 0.01)),
+            'learning_rate' : hp.choice('learning_rate', [0.0001, 0.001, 0.01, 0.1, 1.0]),
             'n_estimators': hp.choice('n_estimators', range(100,1500,100)),
             'subsample' : hp.choice('subsample', np.arange(0.6, 1, 0.05)),
-            'min_child_samples' : hp.choice('min_child_samples', range(5,50,10)),
+            'min_child_samples' : hp.choice('min_child_samples', range(5,30,5)),
             'boosting_type' : 'gbdt',
+            'objective': 'binary',
+            'importance_type': 'gain',
+            'random_state': 801,
+            'seed': 0,
+            'n_jobs': -1,
+        }
+        "lightgbm" : {
+            'boosting_type' : hp.choice('boosting_type', ['gbdt', 'dart']),
+            'num_leaves' : hp.choice('num_leaves', range(20, 100, 10)),
+            'max_depth': hp.choice('max_depth', range(3, 13, 1)),
+            'learning_rate' : hp.choice('learning_rate', [0.0001, 0.001, 0.01, 0.1, 1.0]),
+            'min_child_samples' :  hp.choice('min_child_samples', range(5, 21,5)),
+            'min_split_gain' : hp.choice('min_split_gain', range(0, 15,2)),
+            'n_estimators': hp.choice('n_estimators', range(100,1500,100)),
+            'subsample' : hp.choice('subsample', np.arange(0.6, 1, 0.05)),
             'objective': 'binary',
             'importance_type': 'gain',
             'random_state': 801,
