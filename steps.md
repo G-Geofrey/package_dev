@@ -175,7 +175,7 @@ setup(
 
 ## run the command $ python setup.py bdist_wheel
 ```bash
-python setup.py bdist_whell
+python setup.py bdist_wheel
 ```
 
 ## install the package locally

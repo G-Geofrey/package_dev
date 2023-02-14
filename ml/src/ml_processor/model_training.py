@@ -214,7 +214,7 @@ class model_training:
         return self.model
 
 
-    def model_evaluation(self, model = None, features = None, target = "target", train_set = pd.DataFrame(), 
+    def model_evaluation(self, model = None, features = None, target = None, train_set = pd.DataFrame(), 
         validation_set = pd.DataFrame(), test_set = pd.DataFrame(), main_set = "test", loc_path = None
         ):
 
@@ -231,7 +231,7 @@ class model_training:
         features : list or array-like (default=None)
             Features used for fitting the model
 
-        target : string (default="target")
+        target : string (default=None)
             COlumn with labels
 
         train_set : pandas.Dataframe (default=pandas.DataFrame())
@@ -260,6 +260,9 @@ class model_training:
         
         if  not features:
             features = self.features
+
+        if not target:
+            target = self.target
         
         if train_set.empty:
             train_set = pd.concat([self.X_train, self.y_train], axis=1)
