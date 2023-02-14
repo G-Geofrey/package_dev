@@ -287,7 +287,7 @@ class model_training:
         return model_perf.make_plots()
 
 
-    def shap_summary_plot(self, model=None, eval_set=pd.DataFrame(), save_plot=True, save_path=None, plot_size=(15,20) ):
+    def shap_summary_plot(self, model=None, eval_set=pd.DataFrame(), max_display=None, save_plot=True, save_path=None, plot_size=(15,20) ):
 
         """
 
@@ -298,6 +298,9 @@ class model_training:
 
         eval_set : pandas.DataFrame (default=pandas.DataFrame())
             Data set to use for model evaluation
+
+        max_display : int (default=None)
+            Number of columns to plot
 
         save_plot : boolean (default=True)  
             Whether to save plot or not
@@ -316,11 +319,14 @@ class model_training:
         if eval_set.empty:
             eval_set = self.X_train
 
+        if not max_display:
+            max_display = len(eval_set.columns)
+
         if save_plot:
             if not save_path:
                 save_path = os.path.join(f"{self.classifier}_model_artefacts", "shap_summary_plot.png")
 
-        model_interp_shap(model=model, eval_set=eval_set, save_path=save_path, plot_size=plot_size )
+        model_interp_shap(model=model, eval_set=eval_set, max_display=max_display, save_path=save_path, plot_size=plot_size )
 
 
     def _parameter_tunning(self):
@@ -778,7 +784,7 @@ def split_data(data, target="target", test_size=0.33):
 
 
 
-def model_interp_shap(model, eval_set, save_path=None, plot_size=(10,10)):
+def model_interp_shap(model, eval_set, max_display=None, save_path=None, plot_size=(10,10)):
 
     """
 
@@ -790,6 +796,9 @@ def model_interp_shap(model, eval_set, save_path=None, plot_size=(10,10)):
     eval_set : pandas.DataFrame (default=pandas.DataFrame())
         Data set to use for model evaluation
 
+    max_display : int (default=None)
+        Number of columns to plot
+
     save_path : string (default = None)
         Path to save plot to.
 
@@ -799,7 +808,8 @@ def model_interp_shap(model, eval_set, save_path=None, plot_size=(10,10)):
     """
 
     features = eval_set.columns
-    num_cols = len(features)
+    if not max_display:
+        max_display = len(features)
     
     if isinstance(model, xgb.sklearn.XGBClassifier):
         
@@ -807,7 +817,7 @@ def model_interp_shap(model, eval_set, save_path=None, plot_size=(10,10)):
         
         shap_values = explainer.shap_values(eval_set)
 
-        shap.summary_plot(shap_values, eval_set, max_display=num_cols, show=False, plot_size=plot_size)
+        shap.summary_plot(shap_values, eval_set, max_display=max_display, show=False, plot_size=plot_size)
 
         if save_path:
             plt.savefig(save_path, bbox_inches='tight',dpi=100)
@@ -826,7 +836,7 @@ def model_interp_shap(model, eval_set, save_path=None, plot_size=(10,10)):
         
         shap_values.base_values = shap_values.base_values[:,1]
         
-        shap_plot = shap.plots.beeswarm(shap_values, max_display=num_cols, show=False, plot_size=plot_size)
+        shap_plot = shap.plots.beeswarm(shap_values, max_display=max_display, show=False, plot_size=plot_size)
 
         if save_path:
             plt.savefig(save_path, bbox_inches='tight',dpi=100)
