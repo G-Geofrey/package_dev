@@ -1193,35 +1193,20 @@ def search_space_generator(classifier="xgboost"):
             'verbosity': 1,
             'n_jobs': -1,
         },
+        
 
         "random_forest" : {
             'n_estimators': hp.choice('n_estimators', range(100,1500,100)),
-            'max_depth': hp.choice('max_depth', range(2, 15, 1)),
-            'criterion': 'gini',
+            'max_depth': hp.choice('max_depth', range(2, 10, 1)),
             'min_samples_split': hp.choice('min_samples_split', [2, 5, 10]),
             'max_features' : hp.choice('max_features', ['auto', 'sqrt']),
             'bootstrap': True,
-            # 'importance_type': 'gain',
             'random_state': 801,
             'verbose' : 0,
             'n_jobs' : -1,
-            
-        },
-
-        "lightgbm" : {
-            'num_leaves' : hp.choice('num_leaves', range(20, 200, 10)),
-            'max_depth': hp.choice('max_depth', range(2, 15, 1)),
-            'learning_rate' : hp.choice('learning_rate', [0.0001, 0.001, 0.01, 0.1, 1.0]),
-            'n_estimators': hp.choice('n_estimators', range(100,1500,100)),
-            'subsample' : hp.choice('subsample', np.arange(0.6, 1, 0.05)),
-            'min_child_samples' : hp.choice('min_child_samples', range(5,30,5)),
-            'boosting_type' : 'gbdt',
-            'objective': 'binary',
-            'importance_type': 'gain',
-            'random_state': 801,
-            'seed': 0,
-            'n_jobs': -1,
         }
+
+
         "lightgbm" : {
             'boosting_type' : hp.choice('boosting_type', ['gbdt', 'dart']),
             'num_leaves' : hp.choice('num_leaves', range(20, 100, 10)),
