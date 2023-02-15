@@ -247,10 +247,11 @@ class binary_eda_plot:
                         )
 
                 
-    def format_ax(ax):
+    def format_ax(self, ax):
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
         ax.spines["left"].set_visible(False)
+        return ax
   
 
 
@@ -357,6 +358,10 @@ class binary_eda_plot:
         ax.bar(results.index, results['goods'], color='#ff2e63')
         
         ax.bar(results.index, results['bads'], bottom=results['goods'], color='deepskyblue')
+
+        ax.tick_params(axis='x', rotation=90)
+
+        ax.grid(axis="x")
         
         self.format_ax(ax)
         
@@ -371,17 +376,16 @@ class binary_eda_plot:
         # ax2.plot(results['attr_rate'], marker='o', color='#00FF00', label='attr_rate')
         
         ax2.set_yticklabels(['{:.0%}'.format(x) for x in ax2.get_yticks()])
+
+        ax2.tick_params(axis='y', right=False)
         
         ax2.grid(False)
 
         self.format_ax(ax2)
-        
-        ax.tick_params(axis='x', rotation=90)
 
-        
         plt.title(col, fontsize=14, fontname='georgia', fontweight='bold')
         
-        ax2.legend()
+        ax2.legend(frameon=False)
         
         plt.xlabel('')
         
