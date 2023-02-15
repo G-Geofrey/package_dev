@@ -318,6 +318,7 @@ class data_prep:
             ax.spines["top"].set_visible(False)
             ax.spines["right"].set_visible(False)
             ax.spines["left"].set_visible(False)
+            
         
         else:
             
@@ -359,6 +360,7 @@ class data_prep:
             ax2.spines["top"].set_visible(False)
             ax2.spines["right"].set_visible(False)
             ax2.spines["left"].set_visible(False)
+
         
     def woe_transform(self, data=pd.DataFrame(), verbose=False):
 
