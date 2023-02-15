@@ -247,21 +247,10 @@ class binary_eda_plot:
                         )
 
                 
-    def format_ax(ax, colors = ['black', 'black', 'black', 'None']):
-        
-        ax.spines['left'].set_color(colors[0])
-        
-        ax.spines['left'].set_linewidth(1.5)
-        
-        ax.spines['bottom'].set_color(colors[1])
-        
-        ax.spines['bottom'].set_linewidth(1.5)
-        
-        ax.spines['right'].set_color(colors[1])
-        
-        ax.spines['right'].set_linewidth(1.5)
-        
-        ax.spines['top'].set_color(None)
+    def format_ax(ax):
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.spines["left"].set_visible(False)
   
 
 
@@ -274,6 +263,8 @@ class binary_eda_plot:
                       palette=self.target_palette, 
                       ax=ax
                      )
+
+        self.format_ax(ax)
         
         plt.ticklabel_format(style='plain', axis='y')
         
@@ -367,7 +358,7 @@ class binary_eda_plot:
         
         ax.bar(results.index, results['bads'], bottom=results['goods'], color='deepskyblue')
         
-#         self.format_ax(ax)
+        self.format_ax(ax)
         
         ax2 = ax.twinx()
         
@@ -382,8 +373,11 @@ class binary_eda_plot:
         ax2.set_yticklabels(['{:.0%}'.format(x) for x in ax2.get_yticks()])
         
         ax2.grid(False)
+
+        self.format_ax(ax2)
         
         ax.tick_params(axis='x', rotation=90)
+
         
         plt.title(col, fontsize=14, fontname='georgia', fontweight='bold')
         
@@ -406,6 +400,8 @@ class binary_eda_plot:
             ax=ax,
             legend = False
         )  
+
+        self.format_ax(ax)
         
         plt.title(col, fontsize=14, fontname='georgia', fontweight='bold')
         
