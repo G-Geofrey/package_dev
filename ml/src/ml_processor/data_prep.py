@@ -257,7 +257,7 @@ class data_prep:
         
         return woe_table
     
-    def get_var_bins(self, var, ax, plot_type="WoE"):
+    def get_var_bins(self, var, ax, plot_type="WoE", color="deepskyblue"):
 
         """
 
@@ -274,6 +274,9 @@ class data_prep:
 
         plot_type : string (default="WoE", options=[""WoE", "event_rate"])
             Whether to plot WoE or event rate per bin
+
+        color : string (default="deepskyblue")
+            Plot color
             
         Returns
         -------   
@@ -298,7 +301,7 @@ class data_prep:
         
         if plot_type == "WoE":
 
-            sns.barplot(x='Bin', y='WoE', data=table, ax=ax, color='deepskyblue')
+            sns.barplot(x='Bin', y='WoE', data=table, ax=ax, color=color)
 
             ax.set_title('WoE per bins created \nfor {}'.format(var), fontsize = 12, fontweight='bold', fontname='Georgia')
 

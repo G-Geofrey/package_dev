@@ -1194,6 +1194,8 @@ def search_space_generator(classifier="xgboost"):
             'n_jobs': -1,
         },
 
+    
+
 
         "random_forest" : {
             'n_estimators': hp.choice('n_estimators', range(100,1500,100)),
