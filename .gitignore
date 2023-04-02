@@ -2,7 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 ##
-**/examples/
+**/examples
+gspWeb/econometrics/example/
 **/build/
 *.egg-info
 *.DS_Store
@@ -22,12 +23,13 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+*build/
 develop-eggs/
-dist/
+*dist/
 downloads/
 eggs/
 .eggs/
+
 lib/
 lib64/
 parts/
