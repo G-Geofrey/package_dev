@@ -3,7 +3,7 @@
 
 ##
 **/examples
-gspWeb/econometrics/example/
+gspWeb/example/
 **/build/
 *.egg-info
 *.DS_Store
