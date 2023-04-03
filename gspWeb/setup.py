@@ -1,10 +1,9 @@
 
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
 
 
-
-path = os.path.join(os.environ.get('HOME'), 'Desktop/wg/projects/package_dev/gspWeb/econometrics/README.rst')
+path = os.path.join(os.environ.get('HOME'), 'Desktop/wg/projects/package_dev/gspWeb/README.rst')
 
 with open(path, "r") as fh:
     long_description = fh.read()
@@ -12,11 +11,11 @@ with open(path, "r") as fh:
 setup(
     name='gspWeb',
 
-    version='0.0.1',
+    version='0.0.6',
 
     description='Fitting ols model in python',
 
-    packages=['econometrics'],
+    packages=['gspWeb', 'gspWeb.econometrics'],
 
     # directory in which code file is stored
     package_dir={'':'src'},
@@ -42,7 +41,12 @@ setup(
         ],
 
      install_requires=[
+        "matplotlib",
+        "numpy",
+        "pandas",
+        "plotly==5.14.0",
+        "scipy",
+        "seaborn",
+        "statsmodels==0.13.5",
     ]
-
-
-    )
+)

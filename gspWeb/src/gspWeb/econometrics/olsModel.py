@@ -314,3 +314,96 @@ class ols_model:
         
         return fig
     
+    def plot_exp_animated(self):
+
+        df_exp = pd.DataFrame( {'experience':np.arange(50)})
+        
+        if not hasattr(self, "olsModelExt"):
+            self.get_olsExt()
+
+        # predict wage using experience as the only variable
+        df_exp['log(wage)'] = (
+            df_exp['experience']
+            .apply(
+                lambda x: self.olsModelExt.params['Intercept'] + self.olsModelExt.params['exper']*x 
+                + self.olsModelExt.params['I(exper ** 2)']*(x**2) + self.olsModelExt.params['educ']*12.6 
+                + self.olsModelExt.params['age']*42 + self.olsModelExt.params['kidslt6']*0.1402 
+                + self.olsModelExt.params['kidsge6']*42 + self.olsModelExt.params['unem']*8.3 
+                + self.olsModelExt.params['city']*1
+            )
+        )
+        x = df_exp.experience
+        y = df_exp["log(wage)"]
+
+        # Create the initial trace
+        trace = go.Scatter(
+            x=[],
+            y=[],
+            mode='lines',
+            line=dict(width=2, color='deepskyblue')
+        )
+
+        # Create the animation frames
+        frames = [go.Frame(data=[go.Scatter(x=x[:i], y=y[:i], mode='lines+markers')]) for i in range(len(x))]
+
+        # Add the frames to the layout
+        layout = go.Layout(
+            width=1000, 
+            height=600,
+            plot_bgcolor="white",
+            xaxis=dict(
+                range=[-1, 50],
+                showline=True,
+                zeroline=False,
+                showgrid=False,
+                showticklabels=True,
+                linecolor="#979797",
+                linewidth=1,
+                ticks="outside",
+                title=f"experience"
+            ),
+            yaxis=dict(
+                range=[0.2, 1],
+                showline=False,
+                showgrid=True,
+                showticklabels=True,
+                gridcolor="lightgray",
+                title=f"log(wage)"
+            ),
+            
+            updatemenus=[dict(
+                type='buttons',
+                showactive=False,
+                buttons=[dict(
+                    label='Play',
+                    method='animate',
+                    args=[None, dict(frame=dict(duration=120), fromcurrent=True, transition=dict(duration=0))]
+                )]
+            )],
+            
+            legend=dict(
+                orientation="h",
+                x=0.5,
+                y=1.1
+            ),
+            
+            font=dict(
+                size=12,
+                color="navy"
+            ),
+            
+            title=dict(
+                text=f"Effect of experience on wage",
+                font=dict(
+                    size=20,
+                    color="navy"
+                )
+                ,x=0.5,
+                xanchor="center"
+            ),
+        )
+
+        fig = go.Figure(data=[trace], layout=layout, frames=frames)
+
+        return fig
+    
