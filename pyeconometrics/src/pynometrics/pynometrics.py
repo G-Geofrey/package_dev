@@ -211,7 +211,7 @@ class mplot:
         )
 
         
-    def plot(self, figsize=None):
+    def plot(self, figsize=(12,5)):
         """
         Function to generate plot for chosen diagnostic check for linear regression
         
@@ -223,9 +223,6 @@ class mplot:
         """
         
         sns.set_style('whitegrid')
-        
-        if not figsize:
-            figsize = (12,5)
         
         params = {
             "figure.figsize":figsize,
