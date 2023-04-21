@@ -8,6 +8,7 @@ import statsmodels.formula.api as smf
 import statsmodels.stats.diagnostic as dg
 from scipy.stats import shapiro
 
+from pynometrics.pynometrics import mplot
 
 def get_kidgrp(x,y):
     if x+y == 0:
@@ -377,7 +378,7 @@ class ols_model:
                 buttons=[dict(
                     label='Play',
                     method='animate',
-                    args=[None, dict(frame=dict(duration=120), fromcurrent=True, transition=dict(duration=0))]
+                    args=[None, dict(frame=dict(duration=30), fromcurrent=True, transition=dict(duration=0))]
                 )]
             )],
             
@@ -407,3 +408,8 @@ class ols_model:
 
         return fig
     
+    def plot_coefficients(self, figsize=(12,6)):
+        if not hasattr(self, "olsModel"):
+            mdl = self.get_ols()
+        
+        return mplot(self.olsModel, 7).plot(figsize=figsize)

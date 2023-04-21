@@ -11,7 +11,7 @@ with open(path, "r") as fh:
 setup(
     name='gspWeb',
 
-    version='0.0.6',
+    version='0.0.7',
 
     description='Fitting ols model in python',
 
