@@ -202,17 +202,16 @@ class mplot:
         self.df_params = (
             
             pd.DataFrame(self.mdl.params.reset_index())
-            
             .rename(columns={"index":"var", 0:"coef"})
-            
             .assign(
                 errors = lambda X: X['coef'] - self.mdl.conf_int().iloc[:,0].values,
                 pvalues = self.mdl.pvalues.values,
                 Significant = lambda X: X['pvalues'] < 0.05)
+            .query("var != 'Intercept'")
         )
 
         
-    def plot(self):
+    def plot(self, figsize=None):
         """
         Function to generate plot for chosen diagnostic check for linear regression
         
@@ -225,22 +224,30 @@ class mplot:
         
         sns.set_style('whitegrid')
         
+        if not figsize:
+            figsize = (12,5)
+        
         params = {
-            "figure.figsize":(8,5),
+            "figure.figsize":figsize,
+            "text.color":"#162871",
             "axes.titlesize":16,
             "axes.labelsize":14,
+            "axes.labelcolor": "#162871",
+            "axes.edgecolor": "#162871",
+            "xtick.color": "#162871",
+            "ytick.color": "#162871",
             "xtick.labelsize":10,
             "ytick.labelsize":10,
             "legend.fontsize":12, 
-#             "axes.grid.axis":"y",
+            "axes.grid.axis":"y",
             "axes.spines.left":False,
             "axes.spines.top":False,
-            "axes.spines.right":False
+            "axes.spines.right":False,
+
         }
         
         plt.rcParams.update(params)
-#         plt.rcParams['axes.grid.axis'] = 'x'
-#         plt.rcParams['axes.grid'] = False
+
         
         fig, ax = plt.subplots()
         
@@ -458,8 +465,11 @@ class mplot:
             ax.set_ylabel('Coefficients')
 
             ax.set_xlabel('estimates')
+            
+            ax.xaxis.grid(False)
 
-        return fig
+            
+
 
 def repr_table(models, model_number=False):
     """
