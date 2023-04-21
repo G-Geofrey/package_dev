@@ -244,9 +244,13 @@ class mplot:
         }
         
         plt.rcParams.update(params)
-
         
-        fig, ax = plt.subplots()
+        from matplotlib.figure import Figure
+        
+        fig = Figure()
+        ax = fig.subplots()
+        
+#         fig, ax = plt.subplots()
         
         if self.n == 1:
             
@@ -457,7 +461,7 @@ class mplot:
 
             ax.axvline(x = 0, linestyle = '--', color = '#F08080', linewidth = 1)
 
-            plt.title('95% confidence intervals')
+            ax.set_title('95% confidence intervals')
 
             ax.set_ylabel('Coefficients')
 
@@ -465,7 +469,7 @@ class mplot:
             
             ax.xaxis.grid(False)
 
-            
+        return fig
 
 
 def repr_table(models, model_number=False):
