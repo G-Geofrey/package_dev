@@ -21,7 +21,7 @@ from collections import defaultdict
 
 import xgboost as xgb
 from sklearn.ensemble import RandomForestClassifier
-from lightgbm import LGBMClassifier
+# from lightgbm import LGBMClassifier
 
 from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
 from hyperopt import tpe, STATUS_OK, Trials, hp, fmin, space_eval
@@ -173,18 +173,14 @@ class model_training:
             model = xgb.XGBClassifier(**best_params)
         elif self.classifier == "random_forest":
             model = RandomForestClassifier(**best_params)
-        elif self.classifier == "lightgbm":
-            model = LGBMClassifier(**best_params)
+        # elif self.classifier == "lightgbm":
+        #     model = LGBMClassifier(**best_params)
         
         self.log.info('Model fitting started...')
 
         model.fit(self.X_train[self.features], self.y_train)
         
-        # end = int(time.time())
-        
         self.log.info('Model fitting completed')
-        
-        # self.log.info(f'Runtime for fitting the model : {int(end-start)} seconds')
         
         self.model = model
 
@@ -910,8 +906,8 @@ def hyper_parameter_tunning(features, labels, method="hyperopt", classifier="xgb
                 model = xgb.XGBClassifier(**params)
             elif classifier == "random_forest":
                 model = RandomForestClassifier(**params)
-            elif classifier == "lightgbm":
-                model = LGBMClassifier(**params)
+            # elif classifier == "lightgbm":
+            #     model = LGBMClassifier(**params)
 
             scores = cross_val_score(
                 model,

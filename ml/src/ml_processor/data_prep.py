@@ -140,6 +140,8 @@ class data_prep:
 
         df_encoded = pd.DataFrame(X_encoded, columns=self.encoder.get_feature_names(self.categories))
 
+        df_encoded = df_encoded.astype(int)
+
         if verbose:
             self.log.info('Categorical variables succesful encoded')
 
@@ -157,7 +159,6 @@ class data_prep:
         
         self.df_transformed =  df_transformed
 
-        
         return df_transformed
         
     def woe_bins(self, min_prebin_size = 0.1, 
