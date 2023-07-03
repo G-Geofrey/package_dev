@@ -665,8 +665,8 @@ class plot_model_perf:
         df_metrices = pd.DataFrame()
 
         for i, eval_set in enumerate(self.eval_sets_dic):
-            metric = self.eval_sets_dic[eval_set]["_metrices"].copy()
-            del metric["confusion_matrix"]
+            metric = self.eval_sets_dic[eval_set]["_metrices"].get("scores")
+            # del metric["confusion_matrix"]
             metric = pd.Series(metric)
             metric.name = eval_set
             df_metrices = pd.concat([df_metrices, metric], axis=1)
@@ -968,19 +968,19 @@ def get_predictions(model, X_test, y_test, threshold=0.5):
 
     """
 
-    if isinstance(model, xgb.core.Booster):
+    # if isinstance(model, xgb.core.Booster):
         
-        data = xgb.DMatrix(X_test, y_test)
+    #     data = xgb.DMatrix(X_test, y_test)
         
-        pred_prob = model.predict(data)
+    #     pred_prob = model.predict(data)
     
-    elif not hasattr(model, "predict_proba") and hasattr(model, "predict"):
+    # elif not hasattr(model, "predict_proba") and hasattr(model, "predict"):
         
-        pred_prob = model.predict(X_test)
+    #     pred_prob = model.predict(X_test)
     
-    elif hasattr(model, "predict_proba") and hasattr(model, "predict"):
+    # elif hasattr(model, "predict_proba") and hasattr(model, "predict"):
         
-        pred_prob = model.predict_proba(X_test)[:,1]
+    pred_prob = model.predict_proba(X_test)[:,1]
 
     pred_class = pred_prob>threshold
     
@@ -1042,12 +1042,14 @@ def get_metrics(model, X_test, y_test):
     false_positive_rate = confMatrix[0,1]/confMatrix[0,:].sum()
 
     _metrics = {
-        "area_roc": area_roc,
-        "accuracy": accuracy,
-        "precision": precision[1],
-        "recall": recall[1],
-        "fscore": fscore[1],
-        "false_positive_rate": false_positive_rate,
+        "scores":{
+            "area_roc": area_roc,
+            "accuracy": accuracy,
+            "precision": precision[1],
+            "recall": recall[1],
+            "fscore": fscore[1],
+            "false_positive_rate": false_positive_rate
+        },
         "confusion_matrix": confMatrix
     }
 
@@ -1184,10 +1186,7 @@ def search_space_generator(classifier="xgboost"):
             'objective': 'binary:logistic',
             'booster': 'gbtree',
             'importance_type': 'gain',
-            'random_state': 801,
-            'seed': 0,
-            'verbosity': 1,
-            'n_jobs': -1,
+
         },
 
     
@@ -1201,7 +1200,6 @@ def search_space_generator(classifier="xgboost"):
             'bootstrap': True,
             'random_state': 801,
             'verbose' : 0,
-            'n_jobs' : -1,
         },
 
 
@@ -1252,11 +1250,11 @@ def _plot_roc_curve(trP, trN, area_roc, ax, color="orange", label="test"):
     
     ax.tick_params(axis='both', which='major', labelsize=12)
     
-    ax.set_xlabel('False Positive Rate', fontsize=14)
+    ax.set_xlabel('False Positive Rate', fontsize=12)
     
-    ax.set_ylabel('True Positive Rate', fontsize=14)
+    ax.set_ylabel('True Positive Rate', fontsize=12)
     
-    ax.set_title('Receiver Operating Characteristic (ROC) Curve', fontsize=16)
+    ax.set_title('Receiver Operating Characteristic (ROC) Curve', fontsize=12)
     
     # ax.text(0.3, 0.7, 'AUC = {:.3f}'.format(area_roc), fontsize=12)
 
@@ -1271,11 +1269,11 @@ def _plot_rp_curve(rcl, prc, ax, color="orange", label="test"):
     
     ax.tick_params(axis='both', which='major', labelsize=12)
     
-    ax.set_xlabel('recall', fontsize=14)
+    ax.set_xlabel('recall', fontsize=12)
     
-    ax.set_ylabel('precision', fontsize=14)
+    ax.set_ylabel('precision', fontsize=12)
     
-    ax.set_title('Precision recall Curve', fontsize=16)
+    ax.set_title('Precision recall Curve', fontsize=12)
 
     ax.legend(frameon=False)
 
