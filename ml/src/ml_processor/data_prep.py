@@ -497,11 +497,7 @@ def balance_data(target=None, data=pd.DataFrame()):
         
     """
 
-    if len(data) == 0:
-        data = self.data
-
-    
-    minority_size = data[target].value_counts()[1]
+    minority_size = data[target].value_counts().min()
 
     balanced_df = data.groupby(target).sample(minority_size)
     
