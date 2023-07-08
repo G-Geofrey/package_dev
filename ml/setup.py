@@ -64,8 +64,6 @@ setup(
         'statsmodels',
         'hyperopt>=0.2.7',
         'scipy',
-        'shap',
-        'lightgbm'
     ]
 
 
