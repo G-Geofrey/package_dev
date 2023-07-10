@@ -178,11 +178,9 @@ class mplot:
             7 = 95% confidence intervals
     """
  
-    def __init__(self, mdl, n):
+    def __init__(self, mdl):
         
         self.mdl = mdl
-        
-        self.n = n
         
         self.fitted_values = pd.Series(self.mdl.fittedvalues)
         
@@ -211,7 +209,7 @@ class mplot:
         )
 
         
-    def plot(self, figsize=(12,5)):
+    def plot(self, n, figsize=(12,5)):
         """
         Function to generate plot for chosen diagnostic check for linear regression
         
@@ -252,7 +250,7 @@ class mplot:
         
 #         fig, ax = plt.subplots()
         
-        if self.n == 1:
+        if n == 1:
             
             # rows with top residuals 
             top3 = abs(self.res_df['residuals']).sort_values(ascending = False)[:3]
@@ -276,7 +274,7 @@ class mplot:
             for i in top3.index:
                 ax.annotate(i, xy=(X[i], Y[i]), fontsize = 10, color = 'k', fontweight = 'bold')
         
-        if self.n == 2:
+        if n == 2:
 
             Y = self.res_df['residuals']
            
@@ -289,18 +287,20 @@ class mplot:
 
             QQplot.axes[0].set_ylabel('Standardized Residuals')
 
-            axes = plt.gca()
+            plt.show()
 
-            x_values, y_values = axes.lines[0].get_xdata(), axes.lines[0].get_ydata()
+            # axes = plt.gca()
 
-            for i, j in enumerate(np.arange(3)-3):
+            # x_values, y_values = axes.lines[0].get_xdata(), axes.lines[0].get_ydata()
+
+            # for i, j in enumerate(np.arange(3)-3):
                 
-                indx = np.argsort(np.abs(Y)).values[j]
+            #     indx = np.argsort(np.abs(Y)).values[j]
                 
-                QQplot.axes[0].annotate(
-                    indx, xy = (x_values[j], y_values[j]), fontsize = 10, color = 'k', fontweight = 'bold')
+            #     QQplot.axes[0].annotate(
+            #         indx, xy = (x_values[j], y_values[j]), fontsize = 10, color = 'k', fontweight = 'bold')
                                     
-        if self.n == 3:
+        if n == 3:
             
             X, Y = self.res_df['fitted_values'], self.res_df['sqrt_student_residuals']
 
@@ -324,7 +324,7 @@ class mplot:
             for i in top3.index:
                 ax.annotate(i, xy = (X[i],Y[i]), fontsize = 10, color = 'k', fontweight = 'bold')
         
-        if self.n == 4:  
+        if n == 4:  
             
             df_res = self.res_df.reset_index().drop('index', axis=1)
             
@@ -346,7 +346,7 @@ class mplot:
             
             ax.add_collection(linecoll)
             
-            plt.scatter(X,Y, alpha = 0.85, linewidths = 3, color = 'r', s = 6)
+            ax.scatter(X,Y, alpha = 0.85, linewidths = 3, color = 'r', s = 6)
             
             ax.set_ylabel("Cook's distance", fontsize = 12, fontweight = 'bold')
             
@@ -355,7 +355,9 @@ class mplot:
             for i in top3.index:
                 ax.annotate(i, xy = (X[i],Y[i]), fontsize = 10, color = 'k', fontweight = 'bold')
 
-        if self.n == 5: 
+            plt.show()
+
+        if n == 5: 
 
             student_residuals = pd.Series(self.mdl.get_influence().resid_studentized_internal)
             
@@ -427,7 +429,7 @@ class mplot:
             ax.legend()
 
 
-        if self.n == 6: 
+        if n == 6: 
 
             X, Y = self.res_df['leverage'], self.res_df['cooks_distance']
 
@@ -450,7 +452,7 @@ class mplot:
                 ax.annotate(i, xy = (X.loc[i],Y.loc[i]), fontsize = 10, color = 'k', fontweight = 'bold')
 
         
-        if self.n == 7: 
+        if n == 7: 
             
             self.df_params.plot(x = 'var', y = 'coef', kind = 'barh', ax = ax, color = 'none', 
                            ecolor = self.df_params.Significant.map({True: '#20B2AA', False: '#F08080'}),
