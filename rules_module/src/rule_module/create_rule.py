@@ -221,3 +221,39 @@ class DiscretizeFeature:
         )
 
         fig.show("png")
+
+def plot_lower_triangle_heatmap(corr_matrix):
+    
+    mask = np.tril(np.ones_like(corr_matrix, dtype=bool))
+    lower_triangle = corr_matrix.where(mask)
+
+
+    trace = go.Heatmap(
+        z=lower_triangle,
+        x=corr_matrix.columns,
+        y=corr_matrix.columns,
+        showscale=False,
+    )
+
+    layout = go.Layout(
+        width=1200,
+        plot_bgcolor="white",
+        title_x=0.5,
+        title='Correlation Matrix Heatmap',
+        xaxis=dict(ticks='', side='bottom'),
+        yaxis=dict(ticksuffix=' ', autorange='reversed', showgrid=True, gridcolor="lightgray"),
+        showlegend=False,
+        
+    )
+
+    fig = go.Figure(data=[trace], layout=layout)
+    
+    annotation_x = lower_triangle.values
+    annotation_y = lower_triangle.columns.to_list()
+    annotation_text = lower_triangle.index.to_list()
+    annotation_text = lower_triangle.applymap(lambda x: f"{x:.2f}").values
+    
+    fig = fig.update_traces(text=annotation_text, texttemplate="%{text}", colorscale="Viridis", reversescale=True)
+
+
+    return fig
