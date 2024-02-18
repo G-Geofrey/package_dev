@@ -221,3 +221,63 @@ class DiscretizeFeature:
         )
 
         fig.show("png")
+
+def plot_lower_triangle_heatmap(corr_matrix):
+    
+    mask = np.tril(np.ones_like(corr_matrix, dtype=bool))
+    lower_triangle = corr_matrix.where(mask)
+
+
+    trace = go.Heatmap(
+        z=lower_triangle,
+        x=corr_matrix.columns,
+        y=corr_matrix.columns,
+        showscale=False,
+    )
+
+    layout = go.Layout(
+        width=1200,
+        plot_bgcolor="white",
+        title_x=0.5,
+        title='Correlation Matrix Heatmap',
+        xaxis=dict(ticks='', side='bottom'),
+        yaxis=dict(ticksuffix=' ', autorange='reversed', showgrid=True, gridcolor="lightgray"),
+        showlegend=False,
+        
+    )
+
+    fig = go.Figure(data=[trace], layout=layout)
+    
+    annotation_x = lower_triangle.values
+    annotation_y = lower_triangle.columns.to_list()
+    annotation_text = lower_triangle.index.to_list()
+    annotation_text = lower_triangle.applymap(lambda x: f"{x:.2f}").values
+    
+    fig = fig.update_traces(text=annotation_text, texttemplate="%{text}", colorscale="Viridis", reversescale=True)
+
+
+    return fig
+
+def assign_score(input_df, model, target, pdo=100, score=500, odds=0.5, woe_type=-1):
+    
+    factor = pdo / np.log(2)
+    offset = score - (factor * np.log(odds))
+    intercept = model.params.Intercept
+    features = model.params.drop('Intercept').index.tolist()
+    no_cols = len(features)
+    columns = [target] + features
+    
+    data = pd.DataFrame()
+    
+    data['target'] = input_df[target]
+    
+    data['prediction'] = model.predict(input_df)
+     
+
+    for col in features:
+        col_name = col + '_score'
+        data[col_name] = (woe_type * input_df[col] * model.params[col] + woe_type * intercept / no_cols) * factor + offset / no_cols
+
+    data['SCORE'] = data.drop(columns=['target', 'prediction'], errors='ignore').sum(axis=1)
+    
+    return data
