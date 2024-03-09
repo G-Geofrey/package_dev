@@ -15,13 +15,13 @@ from optbinning import BinningProcess
 
 params = {
     "figure.figsize":(10,6),
-    "text.color":"#5b68f6",
+    "text.color":"black",
     "axes.titlesize":16,
     "axes.labelsize":14,
-    "axes.labelcolor": "#5b68f6",
-    "axes.edgecolor": "#5b68f6",
-    "xtick.color": "#5b68f6",
-    "ytick.color": "#5b68f6",
+    "axes.labelcolor": "black",
+    "axes.edgecolor": "black",
+    "xtick.color": "black",
+    "ytick.color": "black",
     "xtick.labelsize":10,
     "ytick.labelsize":10,
     "legend.fontsize":12, 
@@ -29,7 +29,7 @@ params = {
     "axes.spines.left":False,
     "axes.spines.top":False,
     "axes.spines.right":False,
-    "axes.edgecolor": "#5b68f6",
+    "axes.edgecolor": "black", #5b68f6
 }
 
 plt.rcParams.update(params)
