@@ -13,26 +13,26 @@ from IPython.display import display
 from optbinning import OptimalBinning
 from optbinning import BinningProcess
 
-params = {
-    "figure.figsize":(10,6),
-    "text.color":"grey",
-    "axes.titlesize":16,
-    "axes.labelsize":14,
-    "axes.labelcolor": "grey",
-    "axes.edgecolor": "grey",
-    "xtick.color": "grey",
-    "ytick.color": "grey",
-    "xtick.labelsize":10,
-    "ytick.labelsize":10,
-    "legend.fontsize":12, 
-    "axes.grid.axis":"y",
-    "axes.spines.left":False,
-    "axes.spines.top":False,
-    "axes.spines.right":False,
-    "axes.edgecolor": "grey", #5b68f6
-}
+# params = {
+#     "figure.figsize":(10,6),
+#     "text.color":"grey",
+#     "axes.titlesize":16,
+#     "axes.labelsize":14,
+#     "axes.labelcolor": "grey",
+#     "axes.edgecolor": "grey",
+#     "xtick.color": "grey",
+#     "ytick.color": "grey",
+#     "xtick.labelsize":10,
+#     "ytick.labelsize":10,
+#     "legend.fontsize":12, 
+#     "axes.grid.axis":"y",
+#     "axes.spines.left":False,
+#     "axes.spines.top":False,
+#     "axes.spines.right":False,
+#     "axes.edgecolor": "grey", #5b68f6
+# }
 
-plt.rcParams.update(params)
+# plt.rcParams.update(params)
 
 
 def plot_woe_bins(binning_result, column_name):
@@ -89,12 +89,12 @@ class DiscretizeFeature:
                 upper_bound=(value_column, 'max'),
                 count=(target, 'count'),
                 events=(target, 'sum'),
-                event_rate=(target, 'mean'),
+                target_rate=(target, 'mean'),
             )
             .assign(
                 non_events = lambda X: X['count'] - X['events'],
                 distr = lambda X: X['count']/X['count'].sum(),
-                target_rate = lambda X: X['events']/X['events'].sum(),
+                distr_events = lambda X: X['events']/X['events'].sum(),
                 # lower_bound = lambda X: [round(x/10, 0)*10 if x>=10 else round(x, 0) for x in X['lower_bound']],
                 # upper_bound = lambda X: [round(x/10, 0)*10 if x>=10 else round(x, 0) for x in X['upper_bound']],
             )
@@ -131,9 +131,9 @@ class DiscretizeFeature:
 
         ax2 = ax.twinx()
 
-        ax2.plot(results['event_rate'], marker='o', color='#0000FF', label='event_rate')
+        ax2.plot(results['distr'], marker='o', color='green', label='distr')
 
-        ax2.plot(results['distr'], marker='o', color='black', label='distr')
+        ax2.plot(results['distr_events'], marker='o', color='#0000FF', label='distr_events')
 
         ax2.plot(results['target_rate'], marker='o', color='red', label='target_rate')
 
