@@ -75,8 +75,6 @@ class DiscretizeFeature:
                 non_events = lambda X: X['count'] - X['events'],
                 distr = lambda X: X['count']/X['count'].sum(),
                 distr_events = lambda X: X['events']/X['events'].sum(),
-                # lower_bound = lambda X: [round(x/10, 0)*10 if x>=10 else round(x, 0) for x in X['lower_bound']],
-                # upper_bound = lambda X: [round(x/10, 0)*10 if x>=10 else round(x, 0) for x in X['upper_bound']],
             )
             .filter(items=['lower_bound', 'upper_bound', 'count', 'non_events', 'events', 'distr', 'distr_events',  'target_rate'])
         )
