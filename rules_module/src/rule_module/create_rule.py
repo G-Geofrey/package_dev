@@ -13,26 +13,6 @@ from IPython.display import display
 from optbinning import OptimalBinning
 from optbinning import BinningProcess
 
-# params = {
-#     "figure.figsize":(10,6),
-#     "text.color":"grey",
-#     "axes.titlesize":16,
-#     "axes.labelsize":14,
-#     "axes.labelcolor": "grey",
-#     "axes.edgecolor": "grey",
-#     "xtick.color": "grey",
-#     "ytick.color": "grey",
-#     "xtick.labelsize":10,
-#     "ytick.labelsize":10,
-#     "legend.fontsize":12, 
-#     "axes.grid.axis":"y",
-#     "axes.spines.left":False,
-#     "axes.spines.top":False,
-#     "axes.spines.right":False,
-#     "axes.edgecolor": "grey", #5b68f6
-# }
-
-# plt.rcParams.update(params)
 
 
 def plot_woe_bins(binning_result, column_name):
@@ -95,35 +75,37 @@ class DiscretizeFeature:
                 non_events = lambda X: X['count'] - X['events'],
                 distr = lambda X: X['count']/X['count'].sum(),
                 distr_events = lambda X: X['events']/X['events'].sum(),
-                # lower_bound = lambda X: [round(x/10, 0)*10 if x>=10 else round(x, 0) for x in X['lower_bound']],
-                # upper_bound = lambda X: [round(x/10, 0)*10 if x>=10 else round(x, 0) for x in X['upper_bound']],
             )
-            .filter(items=['lower_bound', 'upper_bound', 'count', 'non_events', 'events', 'distr', 'target_rate',  'event_rate'])
+            .filter(items=['lower_bound', 'upper_bound', 'count', 'non_events', 'events', 'distr', 'distr_events',  'target_rate'])
         )
         
         return results
     
     @staticmethod
-    def get_quantile_plots(data, ax, title='Quantile distributions', table=True, **kwargs):
+    def get_quantile_plots(bins_data=pd.DataFrame(), ax=None, show_table=False, **kwargs):
         
-        results = DiscretizeFeature.get_quantile_bins(
-            data, 
-            value_column=kwargs.get('value_column'), 
-            target=kwargs.get('target', 'default_target'), 
-            q=kwargs.get('q', 10), 
-            divisor=kwargs.get('divisor', 1)
-        )
+        if bins_data.empty:
+            bins_data = DiscretizeFeature.get_quantile_bins(
+                data=kwargs.get('data'), 
+                value_column=kwargs.get('value_column'), 
+                target=kwargs.get('target', 'default_target'), 
+                q=kwargs.get('q', 10), 
+                divisor=kwargs.get('divisor', 1)
+            )
         
-        if table:
-            display(results)
+        if show_table:
+            display(bins_data)
 
-        results.index = results.index.astype(str)
+        bins_data.index = bins_data.index.astype(str)
+        
+        if not ax:
+            fig, ax = plt.subplots(figsize=(6,4))
+            
+        ax.bar(bins_data.index, bins_data['events'], color='#ff2e63')
 
-        ax.bar(results.index, results['events'], color='#ff2e63')
+        ax.bar(bins_data.index, bins_data['non_events'], bottom=bins_data['events'], color='deepskyblue')
 
-        ax.bar(results.index, results['non_events'], bottom=results['events'], color='deepskyblue')
-
-        ax.tick_params(axis='x', rotation=90)
+        ax.tick_params(axis='x', rotation=90, size=2)
 
         ax.grid(axis="y", linestyle="-", color="lightgray", zorder=0)
         ax.set_axisbelow(True)
@@ -131,23 +113,25 @@ class DiscretizeFeature:
 
         ax2 = ax.twinx()
 
-        ax2.plot(results['distr'], marker='o', color='green', label='distr')
+        ax2.plot(bins_data['distr'], marker='o', markersize=4, color='black', label='distr')
 
-        ax2.plot(results['distr_events'], marker='o', color='#0000FF', label='distr_events')
+        ax2.plot(bins_data['distr_events'], marker='o', markersize=4, color='#FFC300', label='distr_events')
 
-        ax2.plot(results['target_rate'], marker='o', color='red', label='target_rate')
+        ax2.plot(bins_data['target_rate'], marker='o', markersize=4, color='red', label='target_rate')
 
         ax2.set_yticklabels(['{:.0%}'.format(x) for x in ax2.get_yticks()])
 
-        ax2.tick_params(axis='y', right=False)
+        ax2.tick_params(axis='y', right=False, size=6)
 
         ax2.grid(False)
 
         ax2.legend(loc='center', bbox_to_anchor=(0.5, 1.05), ncols=3, frameon=False)
 
         ax.set_xlabel('Bins', fontsize=10)
+        
+        return ax
 
-        plt.show()
+        # plt.show()
      
     @staticmethod
     def get_custom_thresholds(data, value_column, thresholds, target='target', logic='less than', divisor=1, as_int = False, **kwargs):
