@@ -1,6 +1,7 @@
 
 import pandas as pd
 import numpy as np
+import re
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -13,6 +14,35 @@ from IPython.display import display
 from optbinning import OptimalBinning
 from optbinning import BinningProcess
 
+def pandas_from_sql(sql, conn, chunksize=None):
+
+    """
+    Extracting data from snowflake into pandas dataframe.
+    Parameters
+    ----------
+    sql : string 
+        Sql statememt for extracting data
+    conn : object (default=None) 
+        Connection engine to snowflake.
+    chunksize : int (default=None)
+        Number of rows to extract from snowflake per iteration if extracting in chunks.
+    Returns
+    -------
+    Pandas.DataFrame
+        Data extracted fro snowflake.
+    """
+
+    if not chunksize:
+        df = pd.read_sql_query(sql, conn)
+    else:
+        df = pd.DataFrame()
+        rows = 0
+
+        for chunk in pd.read_sql_query(sql, conn, chunksize=chunksize):
+            df = pd.concat([df, chunk])
+            rows += chunk.shape[0]
+
+    return pd.DataFrame(df)
 
 
 def plot_woe_bins(binning_result, column_name):
@@ -265,3 +295,105 @@ def assign_score(input_df, model, target, pdo=100, score=500, odds=0.5, woe_type
     data['SCORE'] = data.drop(columns=['target', 'prediction'], errors='ignore').sum(axis=1)
     
     return data
+
+def assign_score(input_df, model, target, pdo=100, score=500, odds=0.5, woe_type=-1):
+    
+    factor = pdo / np.log(2)
+    offset = score - (factor * np.log(odds))
+    intercept = model.params.Intercept
+    features = model.params.drop('Intercept').index.tolist()
+    no_cols = len(features)
+    columns = [target] + features
+    
+    data = pd.DataFrame()
+    
+    data['target'] = input_df[target]
+    
+    data['prediction'] = model.predict(input_df)
+     
+
+    for col in features:
+        col_name = col + '_score'
+        data[col_name] = (woe_type * input_df[col] * model.params[col] + woe_type * intercept / no_cols) * factor + offset / no_cols
+
+    data['SCORE'] = data.drop(columns=['target', 'prediction'], errors='ignore').sum(axis=1)
+    
+    return data
+
+class get_cutoffs:
+    
+    @staticmethod
+    def get_threshold(string):
+        string = str(string)
+        pattern = re.compile(r'[^0-9.,]')
+        string = re.sub(pattern, '', string)
+        threshold = string.split(',')[0]
+        if threshold:
+            return float(threshold)
+        else:
+            return 0
+    
+    @staticmethod
+    def prep_binning_table(binning_object, value_column):
+        bin_table = binning_object.get_binned_variable(value_column).binning_table.build()
+        bin_table = bin_table.query('Bin not in ["Special", "Missing"]')
+        bin_table['column'] = value_column
+        return bin_table
+    
+    @staticmethod
+    def get_cutoff(**kwargs):
+        """
+        kwargs
+            column_bin_table
+            binning_object
+            value_column  
+        """
+        if kwargs.get('column_bin_table', None):
+            column_bin_table = kwargs.get('column_bin_table')
+        else:
+            column_bin_table = get_cutoffs.prep_binning_table(kwargs.get('binning_object'), kwargs.get('value_column'))
+            
+        column_bin_table = column_bin_table.loc[column_bin_table.index != 'Totals']
+        
+        max_event_index = np.argmax(column_bin_table['Event rate'])
+        cut_off = column_bin_table.loc[max_event_index, 'Bin']
+        
+        return get_cutoffs.get_threshold(cut_off)
+    
+    @staticmethod
+    def get_cutoff_quantiles(data, value_column, threshold=0.6, return_cutoffs=True, **kwargs):
+        """
+        kwargs
+            cut_off
+            binning_object
+            target
+            
+        """
+        if kwargs.get('cut_off', None):
+            cut_off = kwargs.get('cut_off')
+        else:
+            cut_off = get_cutoffs.get_cutoff(value_column=value_column, **kwargs)
+            
+        df_plot = data.query(f'{value_column} > {cut_off}')
+        
+        cuttoff_quantiles = DiscretizeFeature.get_quantile_bins(df_plot, value_column, target=kwargs.get('target'))
+        
+        cuttoff_quantiles = cuttoff_quantiles.drop(columns=['lower_bound', 'upper_bound'])
+        
+        cuttoff_quantiles = (
+            cuttoff_quantiles
+            .assign(cutoff = lambda X: X.index)
+            .assign(
+                cutoff = lambda X: X['cutoff'].apply(lambda x: get_cutoffs.get_threshold(x)),
+                max_target_rate = lambda X: X['target_rate'].max(),
+                selected = lambda X: (X['max_target_rate']>threshold).astype(int)
+            )
+            .drop(columns=['max_target_rate'])
+        )
+        
+        cuttoff_quantiles['column'] = value_column
+        
+        if return_cutoffs:
+            cuttoff_quantiles = cuttoff_quantiles.query('target_rate > @threshold')
+        
+        return cuttoff_quantiles
