@@ -3,7 +3,7 @@ import os
 
 setup(
     name='rule_module',
-    version='0.0.1',
+    version='0.1.0',
     description='Functions for creating and anlysing rules',
     packages=['rule_module'],
     package_dir={'':'src'},

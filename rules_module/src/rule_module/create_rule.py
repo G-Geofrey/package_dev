@@ -296,30 +296,6 @@ def assign_score(input_df, model, target, pdo=100, score=500, odds=0.5, woe_type
     
     return data
 
-def assign_score(input_df, model, target, pdo=100, score=500, odds=0.5, woe_type=-1):
-    
-    factor = pdo / np.log(2)
-    offset = score - (factor * np.log(odds))
-    intercept = model.params.Intercept
-    features = model.params.drop('Intercept').index.tolist()
-    no_cols = len(features)
-    columns = [target] + features
-    
-    data = pd.DataFrame()
-    
-    data['target'] = input_df[target]
-    
-    data['prediction'] = model.predict(input_df)
-     
-
-    for col in features:
-        col_name = col + '_score'
-        data[col_name] = (woe_type * input_df[col] * model.params[col] + woe_type * intercept / no_cols) * factor + offset / no_cols
-
-    data['SCORE'] = data.drop(columns=['target', 'prediction'], errors='ignore').sum(axis=1)
-    
-    return data
-
 class get_cutoffs:
     
     @staticmethod
